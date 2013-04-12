@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic.simple import direct_to_template
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -6,7 +7,7 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'goodjobs.views.home', name='home'),
+    url(r'^$', direct_to_template, {'template':'launch.html'}),
     # url(r'^goodjobs/', include('goodjobs.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
