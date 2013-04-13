@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -7,7 +7,7 @@ from django.views.generic.simple import direct_to_template
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', direct_to_template, {'template':'launch.html'}),
+    url(r'^$', TemplateView.as_view(template_name="launch.html")),
     # url(r'^goodjobs/', include('goodjobs.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
@@ -15,4 +15,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
+)
+
+
+urlpatterns += patterns('',
+	(r'^static/(?P<path>.*)$', 'django.views.static.server', {'document_root': settings.STATIC_ROOT}),
 )
