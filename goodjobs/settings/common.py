@@ -1,10 +1,12 @@
 # Django settings for goodjobs project.
 import os
 
-BASE_DIR = os.path.dirname(__file__)
+import djcelery
+djcelery.setup_loader()
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -132,6 +134,8 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+
+    'djcelery',
     'goodjobs.splash',
     'goodjobs.linkedin',
 )
