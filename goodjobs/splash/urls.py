@@ -4,7 +4,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-urlpatterns = patterns('goodjobs.linkedin.views',
-    url(r'connect/$', 'connect'),
-    url(r'authenticate/$', 'authenticate'),
+urlpatterns = patterns('goodjobs.splash.views',
+    url(r'registered/$', 'registered'),
 )

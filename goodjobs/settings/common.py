@@ -1,12 +1,25 @@
 # Django settings for goodjobs project.
-import os
+import os, sys
 
 import djcelery
 djcelery.setup_loader()
 
+import logging
+logging.basicConfig( 
+    stream=sys.stdout, 
+    level=logging.DEBUG, 
+    format='"%(asctime)s %(levelname)8s %(name)s - %(message)s"', 
+    datefmt='%H:%M:%S' 
+) 
+
 BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+LINKEDIN_CLIENT_ID = '9zxahkmp01hw'
+LINKEDIN_SECRET_KEY = '3hmZzQVIAmpSRzB5'
+
+AUTH_USER_MODEL = 'linkedin.UserProfile'
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
