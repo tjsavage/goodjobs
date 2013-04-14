@@ -89,12 +89,13 @@ function generateRandomTree(root, branches, splitDistance, initialAngle, maxAngl
 function drawPath( canvas, pathstr, duration, attr, callback )
 {
     var guide_path = canvas.path( pathstr ).attr( { stroke: "none", fill: "none" } );
-    var path = canvas.path( guide_path.getSubpath( 0, 1 ) ).attr( attr );
+    var path = canvas.path( guide_path.getSubpath(0, 1) ).attr( attr );
     var total_length = guide_path.getTotalLength( guide_path );
     var last_point = guide_path.getPointAtLength( 0 );
     var start_time = new Date().getTime();
-    var interval_length = 50;
-    var result = path;        
+    var interval_length = 20;
+    var result = path;
+    var attr = $.extend({}, attr);     
 
     var interval_id = setInterval( function()
     {
@@ -102,7 +103,6 @@ function drawPath( canvas, pathstr, duration, attr, callback )
         var this_length = elapsed_time / duration * total_length;
         var subpathstr = guide_path.getSubpath( 0, this_length );            
         attr.path = subpathstr;
-
         path.animate( attr, interval_length );
         if ( elapsed_time >= duration )
         {
@@ -110,7 +110,7 @@ function drawPath( canvas, pathstr, duration, attr, callback )
             if ( callback != undefined ) callback();
             guide_path.remove();
         }                                       
-    }, interval_length );  
+    }, interval_length ); 
     return result;
 }
 
@@ -119,33 +119,31 @@ window.onload = function() {
     var WIDTH = 640;
     var MAX_PATHS = 20
     var MAX_ANGLE = PI / 6.0;
-    var SPLIT_DISTANCE = 90;
-    var STEPS = 10;
+    var SPLIT_DISTANCE = 60;
+    var STEPS = 8;
     var MIN_SHARED = 3;
     var OPTIONS = {
         stroke: 'blue',
         'stroke-width': 10,
         'stroke-opacity': .6,
-        'arrow-end': 'classic',
         'stroke-linecap': 'round'
     }
 
-    var paths = new Array();
-
     var paper = new Raphael('canvas-container', 0, HEIGHT);
-    var path = generateRandomPath({x: WIDTH / 2, y:HEIGHT}, -PI / 2.0, PI / 6.0, 60, 10);
-    drawPath(paper, path.pathSequence(), 4000, OPTIONS, function(){});
-    paths.push(path);
-    var pathDrawId = setInterval( function() {
-        var pathIndex = Math.floor(Math.random() * MAX_PATHS);
-        var parentIndex = Math.floor(Math.random() * (paths.length - 1));
-        var related = generateRelatedPath(paths[parentIndex], Math.floor(Math.random() * 5) + MIN_SHARED, STEPS, SPLIT_DISTANCE, MAX_ANGLE);
-        if (paths.length <= pathIndex) {
-            paths.push(related);
-        } else {
-            paths[pathIndex] = related;
-        }
-        console.log(related.pathSequence());
-        drawPath(paper, related.pathSequence(), 4000, OPTIONS, function(){});
-    }, 5000);    
+    var thePath = generateRandomPath({x: WIDTH / 2, y:HEIGHT}, -PI / 2.0, PI / 6.0, SPLIT_DISTANCE, STEPS);
+    
+    var drawRoutine = function() {
+        var ppath = thePath.pathSequence();
+        var dpath = drawPath(paper, ppath, 4000, OPTIONS, function() {
+            setTimeout( function() {
+                thePath = generateRandomPath({x: WIDTH / 2, y:HEIGHT}, -PI / 2.0, PI / 6.0, SPLIT_DISTANCE, STEPS);
+                dpath.animate({ opacity: 0}, 10000, function() {
+                    this.remove();
+                });
+                drawRoutine();
+            }, 2000);
+        });
+    }
+
+    drawRoutine();
 };
