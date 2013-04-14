@@ -158,7 +158,7 @@ window.onload = function() {
                     this.remove();
                 });
                 drawRoutine();
-            }, 2000);
+            }, 1000);
         }));
     }
 

@@ -9,8 +9,8 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', TemplateView.as_view(template_name="launch.html")),
-    # url(r'^goodjobs/', include('goodjobs.foo.urls')),
+    url(r'^$', 'goodjobs.splash.views.splash'),
+    url(r'^linkedin/', include('goodjobs.linkedin.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
