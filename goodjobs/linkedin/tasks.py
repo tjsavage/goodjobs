@@ -1,5 +1,5 @@
 from celery import task
+from goodjobs.linkedin.models import UserProfile
 
 @task()
-def add(x, y):
-	return x + y
+def received_code(auth_code):
