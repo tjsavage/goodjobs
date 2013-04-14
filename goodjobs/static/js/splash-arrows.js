@@ -115,34 +115,51 @@ function drawPath( canvas, pathstr, duration, attr, callback )
 }
 
 window.onload = function() {
-    var HEIGHT = 480;
-    var WIDTH = 640;
+    var HEIGHT = $("#canvas-container").height();
+    var WIDTH = $("#canvas-container").width();
+    console.log(WIDTH);
     var MAX_PATHS = 20
-    var MAX_ANGLE = PI / 6.0;
-    var SPLIT_DISTANCE = 60;
-    var STEPS = 8;
+    var MAX_ANGLE = PI / 4.0;
+    var SPLIT_DISTANCE = 180;
+    var STEPS = 5;
     var MIN_SHARED = 3;
     var OPTIONS = {
-        stroke: 'blue',
-        'stroke-width': 10,
-        'stroke-opacity': .6,
+        stroke: '#0076a0',
+        'stroke-width': 30,
+        'stroke-opacity': .8,
         'stroke-linecap': 'round'
     }
+    var paper = new Raphael('canvas-container', $("#canvas-container").width(), $("#canvas-container").height());
 
-    var paper = new Raphael('canvas-container', 0, HEIGHT);
-    var thePath = generateRandomPath({x: WIDTH / 2, y:HEIGHT}, -PI / 2.0, PI / 6.0, SPLIT_DISTANCE, STEPS);
+
+    $(window).resize(function() {
+        var HEIGHT = $("#canvas-container").height();
+        var WIDTH = $("#canvas-container").width();
+        paper = new Raphael('canvas-container', $("#canvas-container").width(), $("#canvas-container").height());
+    })
+
+    var thePath = generateRandomPath({x: WIDTH / 2.0, y:HEIGHT}, -PI / 2.0, PI / 6.0, SPLIT_DISTANCE, STEPS);
     
     var drawRoutine = function() {
         var ppath = thePath.pathSequence();
-        var dpath = drawPath(paper, ppath, 4000, OPTIONS, function() {
+        var pathSet = paper.set();
+        $.each(thePath.nodes, function(i, node) {
+                var waypoint = paper.circle(node.x, node.y, 0);
+                setTimeout(function() {
+                    waypoint.animate({r: 20, 'stroke-width': 10}, 1000, "bounce");
+                }, i*400);
+                
+                pathSet.push(waypoint);
+        });
+        pathSet.push(drawPath(paper, ppath, 4000, OPTIONS, function() {
             setTimeout( function() {
                 thePath = generateRandomPath({x: WIDTH / 2, y:HEIGHT}, -PI / 2.0, PI / 6.0, SPLIT_DISTANCE, STEPS);
-                dpath.animate({ opacity: 0}, 10000, function() {
+                pathSet.animate({ opacity: 0}, 10000, function() {
                     this.remove();
                 });
                 drawRoutine();
             }, 2000);
-        });
+        }));
     }
 
     drawRoutine();
