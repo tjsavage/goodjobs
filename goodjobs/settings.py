@@ -1,0 +1,1 @@
+from goodjobs.settings.production import *
