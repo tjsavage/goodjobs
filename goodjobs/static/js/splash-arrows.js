@@ -145,6 +145,7 @@ window.onload = function() {
         } else {
             paths[pathIndex] = related;
         }
+        console.log(related.pathSequence());
         drawPath(paper, related.pathSequence(), 4000, OPTIONS, function(){});
     }, 5000);    
 };
