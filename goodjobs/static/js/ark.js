@@ -28,75 +28,7 @@ var Ark = {
 
         return el;
     }
-    /*
-    drawPath: function(rootX, rootY, pathModel) {
-        var root = pathModel.get('root');
-        var path = this.paper.set();
-        var DIST = 100;
-
-        function drawPathFromRoot(node, x, y) {
-            var nodeView = new Ark.NodeView({x: x, y: y, model: node});
-            path.push(nodeView.robj);
-
-            var numChildren = node.get("children").length;
-            console.log(numChildren);
-            if (!numChildren) {
-                return;
-            }
-
-
-            var startAngle = PI;
-            var angleDelta = PI * 1.0 / (numChildren + 1);
-
-            for(var i = 0; i < numChildren; i++) {
-                var child = node.get("children")[i];
-                var angle = startAngle + angleDelta * (i+1);
-                drawPathFromRoot(child, x + Math.cos(angle) * DIST, y + Math.sin(angle) * DIST);
-            }
-        }
-        
-        drawPathFromRoot(root, rootX, rootY);
-
-        return path;
-    }
-    */
 }
-
-/*
-Ark.Path = Backbone.Model.extend({
-    defaults: {
-        root: null,
-        terminus: null
-    },
-
-    addNode: function(node) {
-        if (!this.get("root")) {
-            this.set({"root": node});
-        }
-        if (this.get("terminus")) {
-            this.get("terminus").addChild(node);
-        }
-        node.set({"parent": this.get("terminus")});
-        this.set({"terminus": node});
-    },
-
-    description: function() {
-        var str = ""
-        var node = this.get("root");
-        while(node) {
-            str += node.get("organization") + " -> ";
-
-            if (node.get("children").length) {
-                node = node.get("children")[0];
-            } else {
-                break;
-            }
-        }
-        
-        return str;
-    }
-});
-*/
 
 Ark.Node = Backbone.Model.extend({
     defaults: {
@@ -118,7 +50,7 @@ Ark.Node = Backbone.Model.extend({
         this.children.add(node);
         this.trigger("change:children");
     },
-    
+
     childrenChangeHandler: function() {
         var startAngle = PI;
         var angleDelta = PI * 1.0 / (this.children.length + 1);
@@ -130,6 +62,11 @@ Ark.Node = Backbone.Model.extend({
                                 y: this.get("position").y + Math.sin(angle) * DIST});
             i++;
         }, this);
+    },
+
+    move: function(d) {
+        this.set("position", {x: this.get("position").x + d.x, y: this.get("position").y + d.y});
+        this.trigger("change:children");
     },
 
     description: function() {
@@ -151,34 +88,20 @@ Ark.NodeView = Backbone.View.extend({
         this.model.on('change:position', this.render, this);
     },
     events: {
-        'click': 'bounce',
+        'click': 'onClick',
         'hover': 'onHover',
         'mouseover': 'onHover',
         'mouseout': 'onEndHover'
     },
 
     render: function() {
-        this.element.attr("cx", this.model.get("position").x);
-        this.element.attr("cy", this.model.get("position").y);
-    }
-});
-
-/*
-Ark.PathView = Backbone.View.extend({
-    initialize: function() {
-        var x = this.options.rootX;
-        var y = this.options.rootY;
-        this.element = Ark.drawPath(x, y, this.model);
-        this.setElement(this.element.node);
-        this.model.on('change', this.render, this);
+        this.element.animate({"cx": this.model.get("position").x, "cy": this.model.get("position").y}, 500, "elastic");
     },
 
-    goBlue: function() {
-        this.element.animate({"fill": "blue"}, 3000, "elastic", function() {
-        });
+    onClick: function() {
+        this.model.move({x: 30, y: 0});
     }
 });
-*/
 
 $(document).ready(function() {
     var WIDTH = $("#canvas-container").width();
