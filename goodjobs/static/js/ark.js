@@ -1,28 +1,40 @@
 var PI = Math.PI;
+var DIST = 100;
 
 var Ark = {
     setPaper: function(paper) {
         this.paper = paper;
     },
 
-    loadPath: function(callback) {
-        var path = new Ark.Path();
+    loadPath: function(rootX, rootY, callback) {
+        var path = this.paper.set();
+
         $.getJSON('/api/path/', function(data, status, jqXHR) {
-            for(var i = 0; i < data.length; i++) {
-                node = data[i];
-                path.addNode(new Ark.Node(node));
+            var rootData = data[0];
+            rootData["x"] = rootX;
+            rootData["y"] = rootY;
+            var root = new Ark.Node(rootData);
+            var prevNode = root;
+            for(var i = 1; i < data.length; i++) {
+                var nodeData = data[i];
+                nodeData["parent"] = prevNode;
+                var node = new Ark.Node(nodeData);
+                prevNode.addChild(node);
+                var nodeView = new Ark.NodeView({"model": node});
+                console.log(node.get("y"));
+                path.push(nodeView);
             }
-            callback(path);
+            callback(node);
         });
     },
 
-    drawNode: function(x, y, model) {
-        var el = this.paper.circle(x,y,40);
+    drawNode: function(model) {
+        var el = this.paper.circle(model.get("x"),model.get("y"),40);
         el.attr({fill: "red"});
 
         return el;
-    },
-
+    }
+    /*
     drawPath: function(rootX, rootY, pathModel) {
         var root = pathModel.get('root');
         var path = this.paper.set();
@@ -53,8 +65,10 @@ var Ark = {
 
         return path;
     }
+    */
 }
 
+/*
 Ark.Path = Backbone.Model.extend({
     defaults: {
         root: null,
@@ -88,23 +102,39 @@ Ark.Path = Backbone.Model.extend({
         return str;
     }
 });
+*/
 
 Ark.Node = Backbone.Model.extend({
     defaults: {
         children: [],
         parent: null,
         potentialChildren: [],
-        locked: false
+        locked: false,
+        x: 0,
+        y: 0
     },
 
     initialize: function() {
         this.set({"children": []})
+        this.on('change', this.render, this);
     },
 
     addChild: function(node) {
         var children = this.get("children");
         children.push(node);
         this.set({"children": children});
+    },
+
+    render: function() {
+        var startAngle = PI;
+        var angleDelta = PI * 1.0 / (this.get("children").length + 1);
+        console.log("changed");
+        $.each(this.get("children"), function(i, child) {
+            var angle = startAngle + angleDelta * (i+1);
+            console.log("Setting angle: " + angle);
+            child.set({"x": this.get("x") + Math.cos(angle) * DIST,
+                        "y": this.get("y") + Math.sin(angle) * DIST});
+        });
     },
 
     description: function() {
@@ -114,10 +144,7 @@ Ark.Node = Backbone.Model.extend({
 
 Ark.NodeView = Backbone.View.extend({
     initialize: function() {
-        var x = this.options.x;
-        var y = this.options.y;
-        this.model.set({x: x, y: y});
-        this.element = Ark.drawNode(x, y, this.model);
+        this.element = Ark.drawNode(this.model);
         this.robj = this.element;
         this.setElement(this.element.node);
         this.model.on('change', this.render, this);
@@ -127,6 +154,11 @@ Ark.NodeView = Backbone.View.extend({
         'hover': 'onHover',
         'mouseover': 'onHover',
         'mouseout': 'onEndHover'
+    },
+
+    render: function() {
+        this.element.attr({"cx": this.model.get("x"),
+                            "cy": this.model.get("y")});
     },
 
     bounce: function() {
@@ -143,6 +175,7 @@ Ark.NodeView = Backbone.View.extend({
     }
 });
 
+/*
 Ark.PathView = Backbone.View.extend({
     initialize: function() {
         var x = this.options.rootX;
@@ -157,16 +190,15 @@ Ark.PathView = Backbone.View.extend({
         });
     }
 });
+*/
 
 $(document).ready(function() {
     var WIDTH = $("#canvas-container").width();
     var HEIGHT = $("#canvas-container").height();
     var paper = new Raphael('canvas-container', WIDTH, HEIGHT);
 
-    var pathLoaded = function(path) {
-        console.log(path.description());
-
-        var pathView = new Ark.PathView({rootX: WIDTH / 2.0, rootY: HEIGHT, model: path});
+    var pathLoaded = function(root) {
+        console.log(root.description());
     }
 
     $(window).resize(function() {
@@ -176,5 +208,5 @@ $(document).ready(function() {
     });
 
     Ark.setPaper(paper);
-    Ark.loadPath(pathLoaded);
+    Ark.loadPath(WIDTH / 2.0, HEIGHT, pathLoaded);
 });
