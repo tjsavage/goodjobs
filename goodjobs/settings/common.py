@@ -18,6 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 LINKEDIN_CLIENT_ID = '9zxahkmp01hw'
 LINKEDIN_SECRET_KEY = '3hmZzQVIAmpSRzB5'
+LOGIN_URL = '/'
 
 AUTH_USER_MODEL = 'linkedin.UserProfile'
 
@@ -152,6 +153,7 @@ INSTALLED_APPS = (
     'south',
     'goodjobs.splash',
     'goodjobs.linkedin',
+    'goodjobs.ark',
 )
 
 # A sample logging configuration. The only tangible logging

@@ -12,6 +12,9 @@ urlpatterns = patterns('',
     url(r'^$', 'goodjobs.splash.views.splash'),
     url(r'^linkedin/', include('goodjobs.linkedin.urls')),
     url(r'^splash/', include('goodjobs.splash.urls')),
+    url(r'^ark/', include('goodjobs.ark.urls')),
+    url(r'api/', include('goodjobs.api.urls')),
+
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

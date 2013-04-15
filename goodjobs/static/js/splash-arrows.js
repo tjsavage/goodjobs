@@ -136,7 +136,7 @@ window.onload = function() {
         var HEIGHT = $("#canvas-container").height();
         var WIDTH = $("#canvas-container").width();
         paper = new Raphael('canvas-container', $("#canvas-container").width(), $("#canvas-container").height());
-    })
+    });
 
     var thePath = generateRandomPath({x: WIDTH / 2.0, y:HEIGHT}, -PI / 2.0, PI / 6.0, SPLIT_DISTANCE, STEPS);
     
