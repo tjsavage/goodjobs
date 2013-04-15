@@ -1,5 +1,5 @@
 var PI = Math.PI;
-var DIST = 100;
+var DIST = 170;
 
 var Ark = {
     setPaper: function(paper) {
@@ -29,8 +29,18 @@ var Ark = {
     },
 
     drawPath: function(pathString) {
-        console.log(pathString);
         return this.paper.path( pathString ).attr( { stroke: "blue", fill: "blue" } );
+    },
+
+    drawArc: function(start, end) {
+        console.log("drawing arc " + start.x + " - " + end.x);
+        var pathString = [["M", start.x, start.y], ["R"], [end.x, end.y], ["z"]];
+        console.log(pathString);
+        return this.paper.path(pathString).attr({ stroke:"blue", fill: "blue"});
+    },
+
+    drawSet: function() {
+        return this.paper.set();
     }
 }
 
@@ -75,6 +85,9 @@ Ark.Node = Backbone.Model.extend({
         this.on("change:position", this.childrenChangeHandler, this);
     },
 
+    x: function(){return this.get("position").x},
+    y: function(){return this.get("position").y},
+
     addChild: function(node) {
         this.children.add(node);
         this.trigger("change:children");
@@ -116,12 +129,23 @@ Ark.NodeList = Backbone.Collection.extend({
     }
 });
 
+Ark.ArcView = Backbone.View.extend({
+    initialize: function() {
+        this.element = Ark.drawArc(this.get("start").get("position"), this.get("end").get("position"));
+        this.robj = this.element;
+        this.setElement(this.element.node);
+    }
+})
+
 Ark.NodeView = Backbone.View.extend({
     initialize: function() {
         this.element = Ark.drawNode(this.model);
         this.robj = this.element;
         this.setElement(this.element.node);
         this.model.on('change:position', this.render, this);
+        this.model.on('change:children', this.updateArcs, this);
+        this.model.on('change:position', this.updateArcs, this);
+        this.arcs = Ark.drawSet();
     },
     events: {
         'click': 'onClick',
@@ -130,8 +154,19 @@ Ark.NodeView = Backbone.View.extend({
         'mouseout': 'onEndHover'
     },
 
+    updateArcs: function() {
+        this.arcs.remove();
+
+        this.arcs = Ark.drawSet();
+
+        for(var i = 0; i < this.model.children.length; i++) {
+            this.arcs.push(Ark.drawArc(this.model.get("position"), this.model.children.at(i).get("position")));
+        }
+    },
+
     render: function() {
         this.element.animate({"cx": this.model.get("position").x, "cy": this.model.get("position").y}, 500, "elastic");
+        
     },
 
     onClick: function() {
@@ -169,7 +204,6 @@ $(document).ready(function() {
         $.each(tree.getPath(), function(i, point) {
             console.log(point);
         });
-        new Ark.TreeView({"model": tree});
     }
 
     $(window).resize(function() {
