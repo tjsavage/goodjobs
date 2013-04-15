@@ -1,5 +1,11 @@
 var PI = Math.PI;
-var DIST = 170;
+var DIST = 130;
+var ARC_OPTIONS = {
+        stroke: '#0076a0',
+        'stroke-width': 30,
+        'stroke-opacity': .8,
+        'stroke-linecap': 'round'
+    }
 
 var Ark = {
     setPaper: function(paper) {
@@ -33,10 +39,14 @@ var Ark = {
     },
 
     drawArc: function(start, end) {
-        console.log("drawing arc " + start.x + " - " + end.x);
         var pathString = [["M", start.x, start.y], ["R"], [end.x, end.y], ["z"]];
-        console.log(pathString);
-        return this.paper.path(pathString).attr({ stroke:"blue", fill: "blue"});
+        return this.paper.path(pathString).attr(ARC_OPTIONS);
+    },
+
+    animateDrawArc: function (start, end, callback ) {
+        var pathString = [["M", start.x, start.y], ["R"], [end.x, end.y], ["z"]];
+        return this.paper.path(["M", start.x, start.y], ["R"], [start.x, start.y], ["z"]).animate({ path: pathString, stroke:"blue", fill: "blue"}, 5000, "linear");
+
     },
 
     drawSet: function() {
@@ -75,7 +85,8 @@ Ark.Node = Backbone.Model.extend({
         parent: null,
         locked: false,
         position: {x: 0, y:0},
-        size: 60
+        size: 60, 
+        maxChildren: 3
     },
 
     initialize: function() {
@@ -162,6 +173,8 @@ Ark.NodeView = Backbone.View.extend({
         for(var i = 0; i < this.model.children.length; i++) {
             this.arcs.push(Ark.drawArc(this.model.get("position"), this.model.children.at(i).get("position")));
         }
+
+        this.arcs.toBack();
     },
 
     render: function() {
