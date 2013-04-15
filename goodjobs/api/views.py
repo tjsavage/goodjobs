@@ -23,6 +23,12 @@ def my_path(request):
             "industry": "Computer Science",
             "organization": "Stanford University",
             "position": "Graduate"
+        }, 
+        {
+            "start_date": "2014-04-14 22:59:04.605744+00:00",
+            "industry": "Technology",
+            "organization": "Google",
+            "position": "APM"
         }
     ]
     return HttpResponse(simplejson.dumps(path))
