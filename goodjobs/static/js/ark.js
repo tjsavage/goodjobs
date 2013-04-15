@@ -1,5 +1,6 @@
 var PI = Math.PI;
-var DIST = 130;
+var DIST = 180;
+var NODE_R = 30;
 var ARC_OPTIONS = {
         stroke: '#0076a0',
         'stroke-width': 30,
@@ -15,6 +16,7 @@ var Ark = {
     loadPath: function(rootX, rootY, callback) {
         $.getJSON('/api/path/', function(data, status, jqXHR) {
             var root = new Ark.Node(data[0]);
+            new Ark.NodeView({"model": root});
             root.set("coord", {x: rootX, y: rootY});
             var prevNode = root;
             for(var i = 1; i < data.length; i++) {
@@ -28,10 +30,20 @@ var Ark = {
     },
 
     drawNode: function(model) {
-        var el = this.paper.circle(model.get("coord").x,model.get("coord").y,40);
+        var el = this.paper.circle(model.get("coord").x,model.get("coord").y, NODE_R);
         el.attr({fill: "red"});
 
         return el;
+    },
+
+    drawInfo: function(model) {
+        var set = this.paper.set();
+
+        var el = this.paper.text(model.get("coord").x, model.get("coord").y, model.get("organization"));
+        el.attr({"font-size": 24});
+
+        set.push(el);
+        return set;
     },
 
     drawPath: function(pathString) {
@@ -101,7 +113,6 @@ Ark.Node = Backbone.Model.extend({
 
     addChild: function(node) {
         this.children.add(node);
-        console.log("SS: " + this.description() + " E: " + node.description());
         new Ark.ArcView({"start": this, "end": node});
         this.trigger("change:children");
     },
@@ -164,6 +175,37 @@ Ark.ArcView = Backbone.View.extend({
     getPathStr: function() {
         return [["M", this.start.x(), this.start.y()], ["R"], [this.end.x(), this.end.y()], ["z"]];
     }
+});
+
+Ark.InfoView = Backbone.View.extend({
+    initialize: function(options) {
+        this.parent = options.parent;
+
+        this.element = Ark.drawInfo(this.parent.model);
+        this.robj = this.element;
+        this.setElement(this.element.node);
+
+        this.on("fadeIn", this.fadeIn, this);
+        this.on("fadeOut", this.fadeOut, this);
+        this.on("hide", this.hide, this);
+        this.parent.model.on("change:coord", this.onMove, this);
+    },
+
+    fadeIn: function() {
+        this.element.animate({'opacity': 1}, 200, 'linear');
+    },
+
+    fadeOut: function() {
+        this.element.animate({'opacity': 0}, 200, 'linear');
+    },
+
+    hide: function() {
+        this.element.attr({'opacity': 0});
+    },
+
+    onMove: function() {
+        this.element.attr({'x': this.parent.model.x(), 'y': this.parent.model.y()});
+    }
 })
 
 Ark.NodeView = Backbone.View.extend({
@@ -172,13 +214,16 @@ Ark.NodeView = Backbone.View.extend({
         this.robj = this.element;
         this.setElement(this.element.node);
         this.model.on('change:coord', this.render, this);
+
+        this.infoView = new Ark.InfoView({"parent": this});
+        this.infoView.trigger("hide");
     },
 
     events: {
         'click': 'onClick',
         'hover': 'onHover',
         'mouseover': 'onHover',
-        'mouseout': 'onEndHover'
+        'mouseout': 'offHover'
     },
 
     render: function() {
@@ -188,7 +233,17 @@ Ark.NodeView = Backbone.View.extend({
 
     onClick: function() {
         this.model.fetchChild();
-    }
+    },
+
+    onHover: function() {
+        this.element.animate({"r": NODE_R + 50}, 500, "elastic");
+        this.infoView.trigger("fadeIn");
+    },
+
+    offHover: function() {
+        this.element.animate({"r": NODE_R}, 500, "elastic");
+        this.infoView.trigger("fadeOut");
+    } 
 });
 
 Ark.TreeView = Backbone.View.extend({
@@ -230,5 +285,5 @@ $(document).ready(function() {
     });
 
     Ark.setPaper(paper);
-    Ark.loadPath(WIDTH / 2.0, HEIGHT, pathLoaded);
+    Ark.loadPath(WIDTH / 2.0, HEIGHT - NODE_R / 2 - 40, pathLoaded);
 });
