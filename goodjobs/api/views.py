@@ -32,3 +32,13 @@ def my_path(request):
         }
     ]
     return HttpResponse(simplejson.dumps(path))
+
+def child(request):
+    child = {
+            "start_date": "2015-04-14 22:59:04.605744+00:00",
+            "industry": "Technology",
+            "organization": "US Government",
+            "position": "Child"
+        }
+
+    return HttpResponse(simplejson.dumps(child))

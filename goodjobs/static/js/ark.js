@@ -1,5 +1,5 @@
 var PI = Math.PI;
-var DIST = 100;
+var DIST = 200;
 
 var Ark = {
     setPaper: function(paper) {
@@ -17,18 +17,43 @@ var Ark = {
                 prevNode = node;
                 var nodeView = new Ark.NodeView({"model": node});
             }
-            callback(node);
+            callback(new Ark.Tree({"root": root}));
         });
     },
 
     drawNode: function(model) {
         var el = this.paper.circle(model.get("position").x,model.get("position").y,40);
-        console.log("Drawing at (" + model.get("position").x + ", " + model.get("position").y + ")");
         el.attr({fill: "red"});
 
         return el;
     }
 }
+
+Ark.REST = {
+    getChild: function(parent, callback, scope) {
+        $.getJSON('/api/path/child/', function(data, status, jqXHR) {
+            data["position"] = parent.get("position");
+            callback.call(scope, new Ark.Node(data));
+        });
+    }
+}
+
+Ark.Tree = Backbone.Model.extend({
+    initialize: function() {
+
+    },
+
+    getPath: function() {
+        var node = this.get("root");
+        var points = new Array();
+        while(node) {
+            points.push(node.get("position"));
+            if (!node.children.size) break;
+            node = node.children.at(0);
+        }
+        return points;
+    }
+});
 
 Ark.Node = Backbone.Model.extend({
     defaults: {
@@ -41,7 +66,6 @@ Ark.Node = Backbone.Model.extend({
     initialize: function() {
         this.children = new Ark.NodeList();
         this.potentialChildren = new Ark.NodeList();
-        this.set("position", {x: 0, y: 0});
         this.on("change:children", this.childrenChangeHandler, this);
         this.on("change:position", this.childrenChangeHandler, this);
     },
@@ -49,6 +73,13 @@ Ark.Node = Backbone.Model.extend({
     addChild: function(node) {
         this.children.add(node);
         this.trigger("change:children");
+    },
+
+    fetchChild: function() {
+        Ark.REST.getChild(this, function(child) {
+            new Ark.NodeView({model: child});
+            this.addChild(child);
+        }, this);
     },
 
     childrenChangeHandler: function() {
@@ -75,10 +106,10 @@ Ark.Node = Backbone.Model.extend({
 });
 
 Ark.NodeList = Backbone.Collection.extend({
-    model: Node,
+    model: Ark.Node,
     initialize: function(models, options) {
     }
-})
+});
 
 Ark.NodeView = Backbone.View.extend({
     initialize: function() {
@@ -99,7 +130,7 @@ Ark.NodeView = Backbone.View.extend({
     },
 
     onClick: function() {
-        this.model.move({x: 30, y: 0});
+        this.model.fetchChild();
     }
 });
 
@@ -108,8 +139,10 @@ $(document).ready(function() {
     var HEIGHT = $("#canvas-container").height();
     var paper = new Raphael('canvas-container', WIDTH, HEIGHT);
 
-    var pathLoaded = function(root) {
-        console.log(root.description());
+    var pathLoaded = function(tree) {
+        $.each(tree.getPath(), function(i, point) {
+            console.log(point);
+        });
     }
 
     $(window).resize(function() {
