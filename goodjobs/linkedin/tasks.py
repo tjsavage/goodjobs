@@ -1,5 +1,4 @@
 from celery import task
-from linkedin import linkedin as linkedin_api
 
 import requests
 

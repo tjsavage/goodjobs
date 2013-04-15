@@ -8,8 +8,6 @@ from django.conf import settings
 from django.contrib.auth import login
 from django.contrib import auth
 
-from linkedin import linkedin as linkedin_api
-
 from goodjobs.linkedin import tasks, models
 from goodjobs.linkedin.lib import linkedin_api
 
