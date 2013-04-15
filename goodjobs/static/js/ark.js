@@ -7,29 +7,23 @@ var Ark = {
     },
 
     loadPath: function(rootX, rootY, callback) {
-        var path = this.paper.set();
-
         $.getJSON('/api/path/', function(data, status, jqXHR) {
-            var rootData = data[0];
-            rootData["x"] = rootX;
-            rootData["y"] = rootY;
-            var root = new Ark.Node(rootData);
+            var root = new Ark.Node(data[0]);
+            root.set("position", {x: rootX, y: rootY});
             var prevNode = root;
             for(var i = 1; i < data.length; i++) {
-                var nodeData = data[i];
-                nodeData["parent"] = prevNode;
-                var node = new Ark.Node(nodeData);
+                var node = new Ark.Node(data[i]);
                 prevNode.addChild(node);
+                prevNode = node;
                 var nodeView = new Ark.NodeView({"model": node});
-                console.log(node.get("y"));
-                path.push(nodeView);
             }
             callback(node);
         });
     },
 
     drawNode: function(model) {
-        var el = this.paper.circle(model.get("x"),model.get("y"),40);
+        var el = this.paper.circle(model.get("position").x,model.get("position").y,40);
+        console.log("Drawing at (" + model.get("position").x + ", " + model.get("position").y + ")");
         el.attr({fill: "red"});
 
         return el;
@@ -106,35 +100,36 @@ Ark.Path = Backbone.Model.extend({
 
 Ark.Node = Backbone.Model.extend({
     defaults: {
-        children: [],
         parent: null,
-        potentialChildren: [],
         locked: false,
-        x: 0,
-        y: 0
+        position: {x: 0, y:0},
+        size: 60
     },
 
     initialize: function() {
-        this.set({"children": []})
-        this.on('change', this.render, this);
+        this.children = new Ark.NodeList();
+        this.potentialChildren = new Ark.NodeList();
+        this.set("position", {x: 0, y: 0});
+        this.on("change:children", this.childrenChangeHandler, this);
+        this.on("change:position", this.childrenChangeHandler, this);
     },
 
     addChild: function(node) {
-        var children = this.get("children");
-        children.push(node);
-        this.set({"children": children});
+        this.children.add(node);
+        this.trigger("change:children");
     },
-
-    render: function() {
+    
+    childrenChangeHandler: function() {
         var startAngle = PI;
-        var angleDelta = PI * 1.0 / (this.get("children").length + 1);
-        console.log("changed");
-        $.each(this.get("children"), function(i, child) {
+        var angleDelta = PI * 1.0 / (this.children.length + 1);
+        var i = 0;
+        this.children.each(function(child) {
             var angle = startAngle + angleDelta * (i+1);
-            console.log("Setting angle: " + angle);
-            child.set({"x": this.get("x") + Math.cos(angle) * DIST,
-                        "y": this.get("y") + Math.sin(angle) * DIST});
-        });
+
+            child.set("position", {x: this.get("position").x + Math.cos(angle) * DIST,
+                                y: this.get("position").y + Math.sin(angle) * DIST});
+            i++;
+        }, this);
     },
 
     description: function() {
@@ -142,12 +137,18 @@ Ark.Node = Backbone.Model.extend({
     }
 });
 
+Ark.NodeList = Backbone.Collection.extend({
+    model: Node,
+    initialize: function(models, options) {
+    }
+})
+
 Ark.NodeView = Backbone.View.extend({
     initialize: function() {
         this.element = Ark.drawNode(this.model);
         this.robj = this.element;
         this.setElement(this.element.node);
-        this.model.on('change', this.render, this);
+        this.model.on('change:position', this.render, this);
     },
     events: {
         'click': 'bounce',
@@ -157,21 +158,8 @@ Ark.NodeView = Backbone.View.extend({
     },
 
     render: function() {
-        this.element.attr({"cx": this.model.get("x"),
-                            "cy": this.model.get("y")});
-    },
-
-    bounce: function() {
-        this.element.animate({"r": 50}, 1000, "bounce");
-    },
-
-    onHover: function() {
-        this.element.attr({"fill": "green"});
-
-    },
-
-    onEndHover: function() {
-        this.element.attr({"fill": "blue"});
+        this.element.attr("cx", this.model.get("position").x);
+        this.element.attr("cy", this.model.get("position").y);
     }
 });
 
