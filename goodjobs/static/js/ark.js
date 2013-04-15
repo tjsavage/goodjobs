@@ -1,5 +1,5 @@
 var PI = Math.PI;
-var DIST = 200;
+var DIST = 100;
 
 var Ark = {
     setPaper: function(paper) {
@@ -26,6 +26,11 @@ var Ark = {
         el.attr({fill: "red"});
 
         return el;
+    },
+
+    drawPath: function(pathString) {
+        console.log(pathString);
+        return this.paper.path( pathString ).attr( { stroke: "blue", fill: "blue" } );
     }
 }
 
@@ -134,6 +139,27 @@ Ark.NodeView = Backbone.View.extend({
     }
 });
 
+Ark.TreeView = Backbone.View.extend({
+    initialize: function() {
+        this.element = Ark.drawPath(this.pathString());
+        this.robj = this.element;
+        this.setElement(this.element.node);
+    },
+
+    pathString: function() {
+        var pathString = []
+        var pathPoints = this.model.getPath();
+
+        pathString.push("M", pathPoints[0].x, pathPoints[0].y);
+        pathString.push("R");
+        for (var i = 1; i < pathPoints.length; i++) {
+            pathString.push(pathPoints[i].x, pathPoints[i].y);
+        }
+
+        return pathString;
+    }
+});
+
 $(document).ready(function() {
     var WIDTH = $("#canvas-container").width();
     var HEIGHT = $("#canvas-container").height();
@@ -143,6 +169,7 @@ $(document).ready(function() {
         $.each(tree.getPath(), function(i, point) {
             console.log(point);
         });
+        new Ark.TreeView({"model": tree});
     }
 
     $(window).resize(function() {
