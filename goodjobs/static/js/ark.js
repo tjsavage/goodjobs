@@ -45,33 +45,37 @@ var Ark = {
         return this.paper.path( pathString ).attr( ARC_OPTIONS );
     },
 
-    animateDrawPath: function(pathstr, duration, callback )
+    animateDrawPath: function(pathstr, duration, delay, callback )
     {
         var attr = ARC_OPTIONS;
         var canvas = this.paper;
         var guide_path = canvas.path( pathstr ).attr( { stroke: "none", fill: "none" } );
-        var path = canvas.path( guide_path.getSubpath(0, 1) ).attr( attr );
+        var path = canvas.path( guide_path.getSubpath(0, 1) ).attr( {stroke: "none", fill: "none"} );
         var total_length = guide_path.getTotalLength( guide_path );
         var last_point = guide_path.getPointAtLength( 0 );
         var start_time = new Date().getTime();
-        var interval_length = 20;
+        var interval_length = 4;
         var result = path;
         var attr = $.extend({}, attr);     
 
-        var interval_id = setInterval( function()
-        {
-            var elapsed_time = new Date().getTime() - start_time;
-            var this_length = elapsed_time / duration * total_length;
-            var subpathstr = guide_path.getSubpath( 0, this_length );            
-            attr.path = subpathstr;
-            path.animate( attr, interval_length );
-            if ( elapsed_time >= duration )
+        var delay_id = setTimeout(function() {
+            path.attr(attr);
+            var interval_id = setInterval( function()
             {
-                clearInterval( interval_id );
-                if ( callback != undefined ) callback();
-                guide_path.remove();
-            }                                       
-        }, interval_length ); 
+                var elapsed_time = new Date().getTime() - start_time;
+                var this_length = elapsed_time / duration * total_length;
+                var subpathstr = guide_path.getSubpath( 0, this_length );            
+                attr.path = subpathstr;
+                path.animate( attr, interval_length );
+                if ( elapsed_time >= duration )
+                {
+                    clearInterval( interval_id );
+                    if ( callback != undefined ) callback();
+                    guide_path.remove();
+                }                                       
+            }, interval_length ); 
+        }, delay);
+        
         return result;
     },
 
@@ -123,6 +127,11 @@ Ark.Node = Backbone.Model.extend({
 Ark.NodeList = Backbone.Collection.extend({
     model: Ark.Node,
     initialize: function() {
+    },
+
+    getAt: function(i) {
+        if (i < 0) i += this.length;
+        return this.at(i);
     }
 });
 
@@ -137,6 +146,9 @@ Ark.Path = Backbone.Model.extend({
         this.on("change:coords", this.recalculateNodeCoords, this);
     },
 
+    x: function(){return this.get("coords").x},
+    y: function(){return this.get("coords").y},
+
     sync: function(method, model, options) {
         if (method == 'read') {
             this.trigger("request");
@@ -148,6 +160,14 @@ Ark.Path = Backbone.Model.extend({
                 T.trigger("sync");
             });
         }
+    },
+
+    getLastNode: function() {
+        return this.get("nodes").at(this.get("nodes").length - 1);
+    },
+
+    getNodeAt: function(i) {
+        return this.get("nodes").getAt(i);
     },
 
     change: function() {
@@ -252,14 +272,17 @@ Ark.PathView = Backbone.View.extend({
     },
 
     addNode: function(options) {
-        console.log(options.node);
-        this.nodeViews[options.node] = new Ark.NodeView({"model": options.node});
+        var node = options.node;
+        this.nodeViews[options.node] = new Ark.NodeView({"model": node});
         this.renderPath();
+        node.trigger("animate:in", {from: {x: this.model.getNodeAt(-2).x(), y: this.model.getNodeAt(-2).y()}});
     },
 
     renderAll: function() {
+        console.log("PathView renderAll");
         for(var i = 0; i < this.model.get("nodes").length; i++) {
             var node = this.model.get("nodes").at(i);
+            node.trigger("animate:in", {"from": {x: this.model.x(), y: this.model.y()}});
             var nodeView = new Ark.NodeView({"model": node});
         }
 
@@ -269,7 +292,7 @@ Ark.PathView = Backbone.View.extend({
     renderPath: function() {
         if (this.robj) this.robj.remove();
 
-        var path = Ark.animateDrawPath(this.getPathString(), 800);
+        var path = Ark.animateDrawPath(this.getPathString(), 700, 200);
         path.toBack();
 
         this.element = path.node;
@@ -330,6 +353,7 @@ Ark.NodeView = Backbone.View.extend({
         this.model.on('change:coords', this.onChangeCoords, this);
         this.model.on("change", this.render, this);
         this.model.on("destroy", this.onDestroy, this)
+        this.model.on("animate:in", this.animateIn, this);
     },
 
     events: {
@@ -361,7 +385,7 @@ Ark.NodeView = Backbone.View.extend({
 
     onChangeCoords: function() {
         this.robj.animate({"cx": this.model.x(),
-                            "cy": this.model.y()}, 2000, "elastic");
+                            "cy": this.model.y()}, 300, "<>");
         console.log("nodeView onChangeCoords");
     },
 
@@ -397,7 +421,13 @@ Ark.NodeView = Backbone.View.extend({
     offHover: function() {
         this.robj.animate({transform: "s1"}, 500, "elastic");
         //this.infoView.trigger("fadeOut");
-    } 
+    },
+
+    animateIn: function(options) {
+        console.log("NodeView animateIn from: " + options.from);
+        this.robj.attr({cx: options.from.x, cy: options.from.y});
+        this.robj.animate({cx: this.model.x(), cy: this.model.y()}, 1000, "elastic");
+    }
 });
 
 
@@ -428,6 +458,8 @@ $(document).ready(function() {
 
     setTimeout(function() {
         pathView.model.moveTo({x: 100});
-        //var newPath = new Ark.Path({"url": "/api/node/"})
+        var newPath = new Ark.Path({"url": "/api/path/",
+                                    "coords": {x: WIDTH * 3.0 / 4, y: HEIGHT - NODE_R}});
+        var newPathView = new Ark.PathView({"model": newPath});
     }, 3000)
 });
