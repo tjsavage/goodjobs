@@ -1,6 +1,6 @@
 var PI = Math.PI;
 var DIST = 120;
-var NODE_R = 40;
+var NODE_R = 50;
 var NODE_OFFSET = 50;
 var ARC_OPTIONS = {
         stroke: '#0076a0',
@@ -174,6 +174,8 @@ Ark.PathView = Backbone.View.extend({
         //this.element = Ark.drawArc(this.start.model.get("coord"), this.end.model.get("coord"));
         //this.robj = this.element;
         //this.setElement(this.element.node);
+        this.rSet = Ark.drawSet();
+
         this.model.fetch();
         this.model.on("change:nodes", this.render, this);
         this.model.on("change:coords", this.moved, this);
@@ -191,16 +193,8 @@ Ark.PathView = Backbone.View.extend({
         this.model.move(d);
     },
 
-    moved: function() {
-        this.element.animate({"x": this.model.get("coords").x,
-                            "y": this.model.get("coords").y});
-    },
-
     render: function() {
-        if (this.element) {
-            this.element.remove();
-        }
-        this.element = Ark.drawSet();
+        this.rSet.remove();
 
         var rootY = this.model.get("coords").y;
         var rootX = this.model.get("coords").x;
@@ -209,12 +203,12 @@ Ark.PathView = Backbone.View.extend({
             var node = this.model.get("nodes").at(i);
             node.set("coords", {x: rootX + Math.pow(-1, i) * NODE_OFFSET, y: rootY - DIST * i});
             var nodeView = new Ark.NodeView({"model": node});
-            this.element.push(nodeView.element);
+            this.rSet.push(nodeView.rSet);
         }
 
         this.path = Ark.drawPath(this.getPathString());
         this.path.toBack();
-        this.element.push(this.path);
+        this.rSet.push(this.path);
     },
 
     getPathString: function() {
@@ -264,6 +258,7 @@ Ark.InfoView = Backbone.View.extend({
 
 Ark.NodeView = Backbone.View.extend({
     initialize: function() {
+        this.rSet = Ark.drawSet();
         this.render();
 
         this.model.on('change:coords', this.render, this);
@@ -281,62 +276,52 @@ Ark.NodeView = Backbone.View.extend({
         "experience": {
             'stroke': 'black',
             'fill': 'orange',
-            'stroke-width': 15
+            'stroke-width': 20
         },
         "potential": {
             'stroke': 'black',
             'stroke-dasharray': '-',
-            'stroke-width': 15,
+            'stroke-width': 20,
             'fill': 'grey'
         },
         "default": {
             'stroke': 'black',
             'fill': 'orange',
-            'stroke-width': 15
+            'stroke-width': 20
         }
 
     },
 
     render: function() {
-        if (this.element) {
-            this.element.remove();
-        }
-        
-        this.element = Ark.drawNode(this.model.get("coords").x,
-                                    this.model.get("coords").y,
-                                    0,
-                                    this.attrs[this.model.get("type")],
-                                    Raphael.animation({"r": NODE_R}, 1000, "elastic"));
-        
-        this.robj = this.element;
-        this.setElement(this.element.node);
+        this.rSet.remove();
 
-        if (this.model.get("image")) {
-            console.log("drawing image");
-            if (this.image) {
-                this.image.remove();
-            }
-            this.image = Ark.drawImage(this.model.get("image"), 
-                                    this.model.get("coords").x - NODE_R + 5, 
-                                    this.model.get("coords").y - NODE_R + 5,
-                                    2 * NODE_R - 10,
-                                    2 * NODE_R - 10,
-                                    Raphael.animation({"opacity": 1}, 1000, "linear"));
-            this.element.toFront();
-            this.element.attr({"fill-opacity": 0});
-        }
+        var circle = Ark.drawNode(this.model.get("coords").x,
+                                    this.model.get("coords").y,
+                                    NODE_R,
+                                    this.attrs[this.model.get("type")]);
+
+        this.circle = circle;
+        this.element = circle.node;   
+        
+        this.rSet.push(circle);
+
+        this.rSet.transform("s0.8");
+        this.rSet.animate({transform: "s1"}, 1000, "elastic");
+        this.robj = this.element;
+        this.setElement(this.element);
     },
 
     onClick: function() {
     },
 
     onHover: function() {
-        this.element.animate({"r": NODE_R + 10}, 500, "elastic");
+        this.rSet.animate({transform: "s1.5"}, 500, "elastic");
+        console.log("onHover");
         //this.infoView.trigger("fadeIn");
     },
 
     offHover: function() {
-        this.element.animate({"r": NODE_R}, 500, "elastic");
+        this.rSet.animate({transform: "s1"}, 500, "elastic");
         //this.infoView.trigger("fadeOut");
     } 
 });
@@ -368,14 +353,6 @@ $(document).ready(function() {
     }, 2000);
 
     setTimeout(function() {
-        path.get("nodes").at(3).set({"type": "experience"});
-    }, 3000);
-
-    setTimeout(function() {
-        path.addNode({"type": "potential"});
-    }, 4000)
-
-    setTimeout(function() {
         pathView.model.move({x: -200, y:0});
-    }, 6000)
+    }, 3000)
 });

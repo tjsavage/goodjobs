@@ -23,13 +23,15 @@ def my_path(request):
                         "start_date": "2014-04-14 22:59:04.605744+00:00",
                         "industry": "Technology",
                         "organization": "Google",
-                        "position": "APM"
+                        "position": "APM",
+                        "image": "http://m.c.lnkd.licdn.com/media/p/3/000/062/2ff/080cae8.png"
                     },
                     {
                         "start_date": "2012-04-14 22:59:04.605744+00:00",
                         "industry": "Finance",
                         "organization": "BlackRock",
-                        "position": "Analyst"
+                        "position": "Analyst",
+                        "image": "http://m.c.lnkd.licdn.com/media/p/3/000/03e/2f7/37c4e1e.png"
                     }
                 ]
             }
