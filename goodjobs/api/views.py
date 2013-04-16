@@ -7,18 +7,6 @@ from django.utils import simplejson
 def my_path(request):
     path = [
         {
-            "start_date": "2009-04-14 22:59:04.605744+00:00",
-            "industry": "Computer Science",
-            "organization": "Stanford University",
-            "position": "Student"
-        },
-        {
-            "start_date": "2012-04-14 22:59:04.605744+00:00",
-            "industry": "Finance",
-            "organization": "BlackRock",
-            "position": "Analyst"
-        },
-        {
             "start_date": "2013-04-14 22:59:04.605744+00:00",
             "industry": "Computer Science",
             "organization": "Stanford University",

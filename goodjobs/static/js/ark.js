@@ -16,14 +16,14 @@ var Ark = {
     loadPath: function(rootX, rootY, callback) {
         $.getJSON('/api/path/', function(data, status, jqXHR) {
             var root = new Ark.Node(data[0]);
-            new Ark.NodeView({"model": root});
             root.set("coord", {x: rootX, y: rootY});
-            var prevNode = root;
+
+            var rootView = new Ark.NodeView({"model": root});
+            var prevNodeView = rootView;
             for(var i = 1; i < data.length; i++) {
-                var node = new Ark.Node(data[i]);
-                prevNode.addChild(node);
-                prevNode = node;
-                var nodeView = new Ark.NodeView({"model": node});
+                var nodeView = new Ark.NodeView({"model": new Ark.Node(data[i])});
+                prevNodeView.addChild(nodeView);
+                prevNodeView = nodeView;
             }
             callback(new Ark.Tree({"root": root}));
         });
@@ -113,15 +113,8 @@ Ark.Node = Backbone.Model.extend({
 
     addChild: function(node) {
         this.children.add(node);
-        new Ark.ArcView({"start": this, "end": node});
         this.trigger("change:children");
-    },
-
-    fetchChild: function() {
-        Ark.REST.getChild(this, function(child) {
-            new Ark.NodeView({model: child});
-            this.addChild(child);
-        }, this);
+        return node;
     },
 
     childrenChangeHandler: function() {
@@ -158,7 +151,7 @@ Ark.ArcView = Backbone.View.extend({
         this.start = options.start;
         this.end = options.end;
 
-        this.element = Ark.drawArc(this.start.get("coord"), this.end.get("coord"));
+        this.element = Ark.drawArc(this.start.model.get("coord"), this.end.model.get("coord"));
         this.robj = this.element;
         this.setElement(this.element.node);
 
@@ -173,7 +166,7 @@ Ark.ArcView = Backbone.View.extend({
     },
 
     getPathStr: function() {
-        return [["M", this.start.x(), this.start.y()], ["R"], [this.end.x(), this.end.y()], ["z"]];
+        return [["M", this.start.model.x(), this.start.model.y()], ["R"], [this.end.model.x(), this.end.model.y()], ["z"]];
     }
 });
 
@@ -232,7 +225,11 @@ Ark.NodeView = Backbone.View.extend({
     },
 
     onClick: function() {
-        this.model.fetchChild();
+    },
+
+    addChild: function(child) {
+        this.model.addChild(child.model);
+        new Ark.ArcView({"start": this, "end": child});
     },
 
     onHover: function() {
@@ -273,9 +270,7 @@ $(document).ready(function() {
     var paper = new Raphael('canvas-container', WIDTH, HEIGHT);
 
     var pathLoaded = function(tree) {
-        $.each(tree.getPath(), function(i, point) {
-            console.log(point);
-        });
+        
     }
 
     $(window).resize(function() {
