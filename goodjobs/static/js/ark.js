@@ -176,12 +176,10 @@ Ark.Path = Backbone.Model.extend({
 
     changedNodes: function() {
         this.recalculateNodeCoords();
-        console.log("changed");
-    },
+            },
 
     recalculateNodeCoords: function() {
-        console.log("Path: recalculateNodeCoords");
-        var rootY = this.get("coords").y;
+                var rootY = this.get("coords").y;
         var rootX = this.get("coords").x;
 
         for(var i = 0; i < this.get("nodes").length; i++) {
@@ -267,8 +265,7 @@ Ark.PathView = Backbone.View.extend({
     },
 
     onChangeCoords: function() {
-        console.log("PathView onChangeCoords");
-        this.renderPath();
+                this.renderPath();
     },
 
     addNode: function(options) {
@@ -279,15 +276,14 @@ Ark.PathView = Backbone.View.extend({
     },
 
     renderAll: function() {
-        console.log("PathView renderAll");
         for(var i = 0; i < this.model.get("nodes").length; i++) {
             var node = this.model.get("nodes").at(i);
             var nodeView = new Ark.NodeView({"model": node});
             node.trigger("animate:in", {"from": {x: this.model.x(), y: this.model.y()}});
-
         }
 
         this.renderPath();
+        this.renderControls();
     },
 
     renderPath: function() {
@@ -301,6 +297,12 @@ Ark.PathView = Backbone.View.extend({
         this.setElement(this.element);
     },
 
+    renderControls: function() {
+        if (this.controlsView) this.controlsView.trigger("remove");
+
+        this.controlsView = new Ark.PathControlsView({"model": this.model});
+    },
+
     getPathString: function() {
         var root = this.model.get("nodes").at(0).get("coords");
 
@@ -311,8 +313,7 @@ Ark.PathView = Backbone.View.extend({
             var node = this.model.get("nodes").at(i).get("coords")
             str.push([node.x, node.y]);
         }
-        console.log(str);
-        return str;
+                return str;
     }
 });
 
@@ -387,8 +388,7 @@ Ark.NodeView = Backbone.View.extend({
     onChangeCoords: function() {
         this.robj.animate({"cx": this.model.x(),
                             "cy": this.model.y()}, 300, "<>");
-        console.log("nodeView onChangeCoords");
-    },
+            },
 
     onDestroy: function() {
         this.robj.remove();
@@ -415,8 +415,7 @@ Ark.NodeView = Backbone.View.extend({
 
     onHover: function() {
         this.robj.animate({transform: "s1.25"}, 500, "elastic");
-        console.log("onHover");
-        //this.infoView.trigger("fadeIn");
+                //this.infoView.trigger("fadeIn");
     },
 
     offHover: function() {
@@ -425,11 +424,75 @@ Ark.NodeView = Backbone.View.extend({
     },
 
     animateIn: function(options) {
-        console.log("NodeView animateIn from: " + options.from);
         this.robj.attr({cx: options.from.x, cy: options.from.y});
         this.robj.animate({cx: this.model.x(), cy: this.model.y()}, 1000, "elastic");
     }
 });
+
+Ark.ControlsButtonView = Backbone.View.extend({
+    initialize: function(options) {
+        this.RADIUS = 30;
+        this.attrs = {
+            "fill": "green",
+            "stroke": "none",
+            "opacity": ""
+        }
+
+        this.controls = options.controls;
+        this.offset = options.offset;
+        
+        var circle = Ark.drawNode(this.controls.coords.x + this.offset.x,
+                                    this.controls.coords.y + this.offset.y,
+                                    this.RADIUS,
+                                    this.attrs);
+
+        this.element = circle.node;
+        this.robj = circle;
+        this.setElement(this.element);
+
+        this.controls.on("change:coords", this.updateCoords, this);
+        this.controls.on("remove", this.remove, this);
+    },
+
+    updateCoords: function() {
+        this.robj.animate({cx: this.controls.coords.x + this.offset.x,
+                        cy: this.controls.coords.y + this.offset.y},
+                        400,
+                        ">");
+    },
+
+    remove: function() {
+        this.robj.remove();
+    }
+})
+
+Ark.PathControlsView = Backbone.View.extend({
+
+    initialize: function(options) {
+        this.coords = this.model.getNodeAt(-1).get("coords");
+
+        new Ark.ControlsButtonView({controls: this,
+                                    offset: {x: 120, y: -120}});
+        
+
+        this.on("remove", this.remove, this);
+        this.model.on("add:node", this.updateCoords, this);
+        this.model.on("change:coords", this.updateCoords, this);
+    },
+
+    remove: function() {
+        this.trigger("remove");
+    },
+
+    updateCoords: function() {
+        this.coords = this.model.getNodeAt(-1).get("coords");
+        this.trigger("change:coords");
+    }
+
+
+
+
+})
 
 
 $(document).ready(function() {
@@ -458,7 +521,7 @@ $(document).ready(function() {
     }, 2000);
 
     setTimeout(function() {
-        pathView.model.moveTo({x: 100});
+        pathView.model.moveTo({x: 300});
         var newPath = new Ark.Path({"url": "/api/path/",
                                     "coords": {x: WIDTH * 3.0 / 4, y: HEIGHT - NODE_R}});
         var newPathView = new Ark.PathView({"model": newPath});
