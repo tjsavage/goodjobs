@@ -314,7 +314,7 @@ Ark.PathView = Backbone.View.extend({
         console.log(str);
         return str;
     }
-})
+});
 
 Ark.InfoView = Backbone.View.extend({
     initialize: function(options) {
