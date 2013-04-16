@@ -282,8 +282,9 @@ Ark.PathView = Backbone.View.extend({
         console.log("PathView renderAll");
         for(var i = 0; i < this.model.get("nodes").length; i++) {
             var node = this.model.get("nodes").at(i);
-            node.trigger("animate:in", {"from": {x: this.model.x(), y: this.model.y()}});
             var nodeView = new Ark.NodeView({"model": node});
+            node.trigger("animate:in", {"from": {x: this.model.x(), y: this.model.y()}});
+
         }
 
         this.renderPath();
