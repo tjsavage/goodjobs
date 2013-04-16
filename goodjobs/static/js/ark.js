@@ -30,9 +30,9 @@ var Ark = {
     },
 
     drawNode: function(model) {
-        var el = this.paper.circle(model.get("coord").x,model.get("coord").y, NODE_R);
+        var el = this.paper.circle(model.get("coords").x,model.get("coords").y, NODE_R);
         el.attr({fill: "red"});
-
+        console.log("drawing node " + model.get("coords").y);
         return el;
     },
 
@@ -146,6 +146,69 @@ Ark.NodeList = Backbone.Collection.extend({
     }
 });
 
+Ark.Path = Backbone.Model.extend({
+    initialize: function() {
+        this.on("change", this.change, this);
+    },
+
+    change: function() {
+        console.log(this.get("nodes"));
+    },
+
+    root: function() {
+        return this.nodes[0];
+    },
+
+    url: function() {
+        if (this.get("url")) {
+            return this.get("url");
+        }
+    },
+
+    description: function() {
+        return this.get("firstName") + " " + this.get("lastName");
+    }
+});
+
+Ark.PathList = Backbone.Collection.extend({
+    model: Ark.Path,
+
+    initialize: function(models, options) {
+        if (options.url) {
+            this.url = options.url;
+        }
+    },
+
+    url: function() {
+        if (this.url) {
+            return this.url;
+        }
+    }
+});
+
+Ark.PathView = Backbone.View.extend({
+    initialize: function() {
+        //this.element = Ark.drawArc(this.start.model.get("coord"), this.end.model.get("coord"));
+        //this.robj = this.element;
+        //this.setElement(this.element.node);
+        this.model.fetch();
+        this.model.on("change", this.render, this);
+    },
+
+    render: function() {
+        this.element = Ark.drawSet();
+
+        var rootY = this.model.get("coords").y;
+        var rootX = this.model.get("coords").x;
+
+        for(var i = 0; i < this.model.get("nodes").length; i++) {
+            var node = new Ark.Node(this.model.get("nodes")[i]);
+            node.set("coords", {x: rootX / 2.0, y: rootY - DIST * i});
+            var nodeView = new Ark.NodeView({"model": node});
+        }
+    }
+})
+
 Ark.ArcView = Backbone.View.extend({
     initialize: function(options) {
         this.start = options.start;
@@ -243,26 +306,6 @@ Ark.NodeView = Backbone.View.extend({
     } 
 });
 
-Ark.TreeView = Backbone.View.extend({
-    initialize: function() {
-        this.element = Ark.drawPath(this.pathString());
-        this.robj = this.element;
-        this.setElement(this.element.node);
-    },
-
-    pathString: function() {
-        var pathString = []
-        var pathPoints = this.model.getPath();
-
-        pathString.push("M", pathPoints[0].x, pathPoints[0].y);
-        pathString.push("R");
-        for (var i = 1; i < pathPoints.length; i++) {
-            pathString.push(pathPoints[i].x, pathPoints[i].y);
-        }
-
-        return pathString;
-    }
-});
 
 $(document).ready(function() {
     var WIDTH = $("#canvas-container").width();
@@ -280,5 +323,9 @@ $(document).ready(function() {
     });
 
     Ark.setPaper(paper);
-    Ark.loadPath(WIDTH / 2.0, HEIGHT - NODE_R / 2 - 40, pathLoaded);
+    
+    var pathView = new Ark.PathView({"model": new Ark.Path({"url": "/api/path/",
+                                                            "coords": {x: WIDTH / 2.0, y: HEIGHT - NODE_R}})});
+
+
 });

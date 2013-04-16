@@ -5,20 +5,27 @@ from django.utils import simplejson
 
 @login_required
 def my_path(request):
-    path = [
-        {
-            "start_date": "2013-04-14 22:59:04.605744+00:00",
-            "industry": "Computer Science",
-            "organization": "Stanford University",
-            "position": "Graduate"
-        }, 
-        {
-            "start_date": "2014-04-14 22:59:04.605744+00:00",
-            "industry": "Technology",
-            "organization": "Google",
-            "position": "APM"
-        }
-    ]
+    path = {
+            "real": True,
+            "firstName": "Taylor",
+            "lastName": "Savage",
+            "nodes" : [
+                    {
+                        "type": "experience",
+                        "start_date": "2013-04-14 22:59:04.605744+00:00",
+                        "industry": "Computer Science",
+                        "organization": "Stanford University",
+                        "position": "Graduate"
+                    }, 
+                    {
+                        "type": "experience",
+                        "start_date": "2014-04-14 22:59:04.605744+00:00",
+                        "industry": "Technology",
+                        "organization": "Google",
+                        "position": "APM"
+                    }
+                ]
+            }
     return HttpResponse(simplejson.dumps(path))
 
 def child(request):
@@ -40,7 +47,7 @@ def suggestions(request):
             "real": True,
             "firstName": "Jim",
             "lastName": "Beam",
-            "path" : [
+            "nodes" : [
                 {
                     "start_date": "2009-04-14 22:59:04.605744+00:00",
                     "industry": "Computer Science",
@@ -59,7 +66,7 @@ def suggestions(request):
         ,
         {
             "real": False,
-            "path": [
+            "nodes": [
                 {
                     "start_date": "2009-04-14 22:59:04.605744+00:00",
                     "industry": "Computer Science",
