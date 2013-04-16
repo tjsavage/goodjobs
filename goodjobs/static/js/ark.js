@@ -45,6 +45,36 @@ var Ark = {
         return this.paper.path( pathString ).attr( ARC_OPTIONS );
     },
 
+    animateDrawPath: function(pathstr, duration, callback )
+    {
+        var attr = ARC_OPTIONS;
+        var canvas = this.paper;
+        var guide_path = canvas.path( pathstr ).attr( { stroke: "none", fill: "none" } );
+        var path = canvas.path( guide_path.getSubpath(0, 1) ).attr( attr );
+        var total_length = guide_path.getTotalLength( guide_path );
+        var last_point = guide_path.getPointAtLength( 0 );
+        var start_time = new Date().getTime();
+        var interval_length = 20;
+        var result = path;
+        var attr = $.extend({}, attr);     
+
+        var interval_id = setInterval( function()
+        {
+            var elapsed_time = new Date().getTime() - start_time;
+            var this_length = elapsed_time / duration * total_length;
+            var subpathstr = guide_path.getSubpath( 0, this_length );            
+            attr.path = subpathstr;
+            path.animate( attr, interval_length );
+            if ( elapsed_time >= duration )
+            {
+                clearInterval( interval_id );
+                if ( callback != undefined ) callback();
+                guide_path.remove();
+            }                                       
+        }, interval_length ); 
+        return result;
+    },
+
     drawArc: function(start, end) {
         var pathString = [["M", start.x, start.y], ["R"], [end.x, end.y], ["z"]];
         return this.paper.path(pathString).attr(ARC_OPTIONS).attr({'opacity': 0}).animate({'opacity': 1}, 1000);
@@ -239,7 +269,7 @@ Ark.PathView = Backbone.View.extend({
     renderPath: function() {
         if (this.robj) this.robj.remove();
 
-        var path = Ark.drawPath(this.getPathString());
+        var path = Ark.animateDrawPath(this.getPathString(), 800);
         path.toBack();
 
         this.element = path.node;
@@ -250,8 +280,9 @@ Ark.PathView = Backbone.View.extend({
     getPathString: function() {
         var root = this.model.get("nodes").at(0).get("coords");
 
-        var str = [["M", root.x, root.y]];
-        str.push(["T"]);
+        var str = []
+        str.push("M", root.x, root.y);
+        str.push(["R"]);
         for(var i = 0; i < this.model.get("nodes").length; i++) {
             var node = this.model.get("nodes").at(i).get("coords")
             str.push([node.x, node.y]);
@@ -396,6 +427,7 @@ $(document).ready(function() {
     }, 2000);
 
     setTimeout(function() {
-        pathView.model.moveTo({x: 0});
+        pathView.model.moveTo({x: 100});
+        //var newPath = new Ark.Path({"url": "/api/node/"})
     }, 3000)
 });
