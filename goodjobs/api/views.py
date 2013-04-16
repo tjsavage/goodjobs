@@ -23,6 +23,12 @@ def my_path(request):
                         "industry": "Technology",
                         "organization": "Google",
                         "position": "APM"
+                    },
+                    {
+                        "start_date": "2012-04-14 22:59:04.605744+00:00",
+                        "industry": "Finance",
+                        "organization": "BlackRock",
+                        "position": "Analyst"
                     }
                 ]
             }
