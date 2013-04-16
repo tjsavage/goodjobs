@@ -6,5 +6,6 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns('goodjobs.api.views',
     url(r'path/$', 'my_path'),
-    url(r'path/child/$', 'child')
+    url(r'path/child/$', 'child'),
+    url(r'node/suggestions/$', 'suggestions')
 )

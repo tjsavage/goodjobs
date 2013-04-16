@@ -42,3 +42,49 @@ def child(request):
         }
 
     return HttpResponse(simplejson.dumps(child))
+
+"""
+Takes a root node and returns a list of path suggestions
+"""
+def suggestions(request):
+    paths = [
+        {
+            "real": True,
+            "firstName": "Jim",
+            "lastName": "Beam",
+            "path" : [
+                {
+                    "start_date": "2009-04-14 22:59:04.605744+00:00",
+                    "industry": "Computer Science",
+                    "organization": "Stanford University",
+                    "position": "Student"
+                },
+                {
+                    "start_date": "2012-04-14 22:59:04.605744+00:00",
+                    "industry": "Finance",
+                    "organization": "BlackRock",
+                    "position": "Analyst"
+                }
+            ]
+            
+        }
+        ,
+        {
+            "real": False,
+            "path": [
+                {
+                    "start_date": "2009-04-14 22:59:04.605744+00:00",
+                    "industry": "Computer Science",
+                    "organization": "Stanford University",
+                    "position": "Student"
+                },
+                {
+                    "start_date": "2012-04-14 22:59:04.605744+00:00",
+                    "industry": "Finance",
+                    "organization": "BlackRock",
+                    "position": "Analyst"
+                }
+            ]
+        }
+    ]
+    return HttpResponse(simplejson.dumps(paths))
