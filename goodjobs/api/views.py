@@ -15,7 +15,8 @@ def my_path(request):
                         "start_date": "2013-04-14 22:59:04.605744+00:00",
                         "industry": "Computer Science",
                         "organization": "Stanford University",
-                        "position": "Graduate"
+                        "position": "Graduate",
+                        "image": "http://m.c.lnkd.licdn.com/media/p/2/000/0fc/305/348376c.png"
                     }, 
                     {
                         "type": "experience",
