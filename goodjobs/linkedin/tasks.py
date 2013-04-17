@@ -1,4 +1,5 @@
 from celery import task
+import datetime
 
 import requests
 
@@ -16,58 +17,58 @@ logger = logging.getLogger(__name__)
 def crawl_linkedin(user):
     fields = ["id","first-name","last-name","picture-url","positions","educations"]
     json_data = linkedin_api.get_profile(user.oauth_token, fields)
-    update_user(user, json_data)
+    parse_user_data(user, json_data)
 
-@task()
+def parse_user_data(user, json_data):
+    update_user(user, json_data)
+    user.save()
+
 def update_user(user, json_data):
     user.linkedin_id = json_data["id"]
     user.first_name = json_data["firstName"]
     user.last_name = json_data["lastName"]
     user.picture_url = json_data["pictureUrl"]
 
-    user.save()
-
     parse_experiences(user, json_data["positions"]["values"])
 
 def parse_experiences(user, positions_data):
     for individual_position_data in positions_data:
-        experience = Experience.objects.get_or_create(linkedin_id=individual_position_data["id"])
-        update_experience(experience, individual_position_data)
-    experience.user = user
-    
+        parse_experience(user, individual_position_data)    
 
-def update_experience(experience, individual_position_data):
+def parse_experience(user, individual_position_data):
+    experience, created = Experience.objects.get_or_create(linkedin_id=individual_position_data["id"],
+                                                                user=user)
     experience.linkedin_id = individual_position_data["id"]
-    experience.startDate = individual_position_data["startDate"]
+    experience.start_year = individual_position_data["startDate"]["year"]
+    if "month" in individual_position_data["startDate"]:
+        experience.start_month = individual_position_data["startDate"]["month"]
     if "endDate" in individual_position_data:
-        experiences.endDate = individual_position_data[""]
-    experience.summary = individual_position_data["summary"]  
+        experience.end_year = individual_position_data["endDate"]["year"]
+        if "month" in individual_position_data["endDate"]:
+            experience.end_month = individual_position_data["endDate"]["month"]
+    experience.summary = individual_position_data["summary"]
     experience.title = individual_position_data["title"]
     experience.organization = parse_organization(experience, individual_position_data["company"])
     experience.save()
 
+def parse_organization(organization, individual_company_data):
+    organization_linkedin_id = individual_company_data["id"] if "id" in individual_company_data else None
+    organization_name = individual_company_data["name"]
 
-def parse_organization(experience, individual_company_data):
-    organization = Organization.objects.get_or_create(linkedin_id=individual_company_data["id"])
-    update_organization(organization, individual_company_data)
+    organization, created = Organization.objects.get_or_create(linkedin_id=organization_linkedin_id,
+                                                                name=organization_name)
+    if "id" in individual_company_data:
+        organization.linkedin_id = individual_company_data["id"]
+    if "size" in individual_company_data:
+        organization.size = individual_company_data["size"]
+    if "type" in individual_company_data:
+        organization.company_type = individual_company_data["type"]
+    if "industry" in individual_company_data:
+        organization.industry = parse_industry(organization, individual_company_data["industry"])
+
+    organization.save()
     return organization
 
-def update_organization(organization, individual_company_data):
-    organization.linkedin_id = individual_company_data["id"]
-    organization.name = individual_company_data["name"]
-    organization.size = individual_company_data["size"]
-    organization.company_type = individual_company_data["type"]
-    organization.industry = parse_industry(organization, individual_company_data["industry"])
-    organization.save()
-
-
-def parse_industry(organization, individual_industry_data):
-    industry = Industry.objects.get_or_create(linkedin_id=individual_industry_data["name"])
-    update_industry(industry, individual_industry_data)
+def parse_industry(organization, industry_name):
+    industry, created = Industry.objects.get_or_create(name=industry_name)
     return industry
-
-
-def update_industry(industry, individual_industry_data):
-    industry.name = individual_industry_data["name"]
-    industry.save()
->>>>>>> b295e9da3b69129f4fa80506f22899174217b1c6

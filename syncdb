@@ -1,0 +1,5 @@
+#!/bin/bash
+rm sqlite3.db
+python manage.py syncdb --settings=goodjobs.settings.production
+python manage.py schemamigration linkedin --auto --settings=goodjobs.settings.production
+python manage.py migrate --all settings=goodjobs.settings.production

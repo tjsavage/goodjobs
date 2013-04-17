@@ -30,7 +30,7 @@ def connect(request):
         user.oauth_code = code
         user.save()
 
-        crawl_linkedin(user)
+        tasks.crawl_linkedin(user)
 
         logger.debug("Token %s" % user.oauth_token)
 

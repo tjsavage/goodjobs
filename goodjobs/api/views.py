@@ -20,44 +20,9 @@ def tags(request):
 
 @login_required
 def my_path(request):
-    path = {
-            "real": True,
-            "firstName": "Taylor",
-            "lastName": "Savage",
-            "nodes" : [
-                    {
-                        "type": "experience",
-                        "start_date": "2013-04-14 22:59:04.605744+00:00",
-                        "industry": "Computer Science",
-                        "organization": "Stanford University",
-                        "position": "Graduate",
-                        "image": "http://m.c.lnkd.licdn.com/media/p/2/000/0fc/305/348376c.png"
-                    }, 
-                    {
-                        "type": "experience",
-                        "start_date": "2014-04-14 22:59:04.605744+00:00",
-                        "industry": "Technology",
-                        "organization": "Google",
-                        "position": "APM",
-                        "image": "http://m.c.lnkd.licdn.com/media/p/3/000/062/2ff/080cae8.png"
-                    },
-                    {
-                        "start_date": "2012-04-14 22:59:04.605744+00:00",
-                        "industry": "Finance",
-                        "organization": "BlackRock",
-                        "position": "Analyst",
-                        "image": "http://m.c.lnkd.licdn.com/media/p/3/000/03e/2f7/37c4e1e.png"
-                    },
-                    {
-                        "start_date": "2012-04-14 22:59:04.605744+00:00",
-                        "industry": "Finance",
-                        "organization": "BlackRock",
-                        "position": "Analyst",
-                        "image": "http://m.c.lnkd.licdn.com/media/p/3/000/03e/2f7/37c4e1e.png"
-                    }
-                ]
-            }
-    return HttpResponse(simplejson.dumps(path))
+    user = request.user
+
+    return HttpResponse(simplejson.dumps(user.path_json_dict()))
 
 def child(request):
     child = {

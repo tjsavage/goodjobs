@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import simplejson
+from django.core import serializers
 
 class LinkedInUserManager(BaseUserManager):
     def create(self, linkedin_id, oauth_code):
@@ -46,20 +47,57 @@ class UserProfile(AbstractBaseUser):
     def __unicode__(self):
         return "%s %s" % (self.first_name, self.last_name)
 
+    def path_json_dict(self):
+        d = {}
+
+        d["linkedin_id"] = self.linkedin_id
+        d["first_name"] = self.first_name
+        d["last_name"] = self.last_name
+        d["picture_url"] = self.picture_url
+        d["experiences"] = []
+
+        for e in Experience.objects.filter(user=self):
+            d["experiences"].append(e.json_dict())
+
+        return d
+
 class Experience(models.Model):
-    organization = models.ForeignKey("Organization")
-    startDate = models.DateField()
-    endDate = models.DateField(null=True)
-    summary = models.TextField()
+    linkedin_id = models.CharField(max_length=50, null=True, default=None)
+    organization = models.ForeignKey("Organization", null=True)
+    start_year = models.IntegerField(null=True)
+    start_month = models.IntegerField(null=True)
+    end_year = models.IntegerField(null=True)
+    end_month = models.IntegerField(null=True)
+    summary = models.TextField(blank=True)
     title = models.CharField(max_length=100)
     user = models.ForeignKey("UserProfile")
 
     def __unicode__(self):
-        return "%s from %s" % (self.organization, self.startDate)
+        return "%s from %s" % (self.organization, self.start_year)
+
+    def json_dict(self):
+        d = {}
+        d["linkedin_id"] = self.linkedin_id
+        if self.start_year:
+            d["start_year"] = self.start_year
+        if self.start_month:
+            d["start_month"] = self.start_month
+        if self.end_year:
+            d["end_year"] = self.end_year
+        if self.end_month:
+            d["end_month"] = self.end_month
+        if self.summary:
+            d["summary"] = self.summary
+        if self.title :
+            d["title"] = self.title
+        if self.organization:
+            d["organization"] = self.organization.json_dict()
+        
+        return d
 
 class Organization(models.Model):
-    linkedin_id = models.CharField(max_length=200)
-    industry = models.ForeignKey("Industry")
+    linkedin_id = models.CharField(max_length=200, null=True, default=None)
+    industry = models.ForeignKey("Industry", null=True)
     name = models.CharField(max_length=200)
     size = models.CharField(max_length=50, null=True, blank=True)
     company_type = models.CharField(max_length=100)
@@ -67,6 +105,21 @@ class Organization(models.Model):
 
     def __unicode__(self):
         return "%s" % self.name
+
+    def json_dict(self):
+        d = {}
+        if self.linkedin_id:
+            d["linkedin_id"] = self.linkedin_id
+        if self.name:
+            d["name"] = self.name
+        if self.size:
+            d["size"] = self.size
+        if self.company_type:
+            d["company_type"] = self.company_type
+        if self.industry:
+            d["industry"] = self.industry.name
+
+        return d
 
 class Industry(models.Model):
     name = models.CharField(max_length=100)

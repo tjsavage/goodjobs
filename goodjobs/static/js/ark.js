@@ -1,13 +1,17 @@
 var PI = Math.PI;
-var DIST = 120;
-var NODE_R = 50;
-var NODE_OFFSET = 50;
+var DIST = 60;
+var NODE_R = 30;
+var NODE_X_OFFSET = 30;
 var ARC_OPTIONS = {
         stroke: '#0076a0',
-        'stroke-width': 30,
+        'stroke-width': 10,
         'stroke-opacity': 0.8,
         'stroke-linecap': 'round'
     };
+var NODE_OPTIONS = {
+    stroke: 'black',
+
+}
 
 var Ark = {
     setPaper: function(paper) {
@@ -157,7 +161,7 @@ Ark.Path = Backbone.Model.extend({
             this.trigger("request");
             var T = this;
             $.getJSON(this.url(), function(data, status, jqXHR) {
-                var nodes = new Ark.NodeList(data.nodes);
+                var nodes = new Ark.NodeList(data.experiences);
                 T.set("nodes", nodes);
                 
                 T.trigger("sync");
@@ -187,7 +191,7 @@ Ark.Path = Backbone.Model.extend({
 
         for(var i = 0; i < this.get("nodes").length; i++) {
             var node = this.get("nodes").at(i);
-            node.moveTo({x: rootX + Math.pow(-1, i) * NODE_OFFSET, y: rootY - DIST * i});
+            node.moveTo({x: rootX + Math.pow(-1, i) * NODE_X_OFFSET, y: rootY - DIST * i});
             node.trigger("change:coords");
         }
     },
@@ -391,18 +395,18 @@ Ark.NodeView = Backbone.View.extend({
         "experience": {
             'stroke': 'black',
             'fill': 'orange',
-            'stroke-width': 20
+            'stroke-width': 5
         },
         "blank": {
             'stroke': 'black',
             'stroke-dasharray': '-',
-            'stroke-width': 20,
+            'stroke-width': 5,
             'fill': 'grey'
         },
         "default": {
             'stroke': 'black',
             'fill': 'orange',
-            'stroke-width': 20
+            'stroke-width': 5
         }
 
     },
