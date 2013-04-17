@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
+from django.utils import simplejson
 
 class LinkedInUserManager(BaseUserManager):
     def create(self, linkedin_id, oauth_code):
@@ -44,3 +44,32 @@ class UserProfile(AbstractBaseUser):
 
     def __unicode__(self):
         return "%s %s" % (self.first_name, self.last_name)
+
+class Experience(models.Model):
+    organization = models.ForeignKey("Organization")
+    startDate = models.DateField()
+    endDate = models.DateField(null=True)
+    summary = models.TextField()
+    title = models.CharField(max_length=100)
+    user = models.ForeignKey("UserProfile")
+
+    def __unicode__(self):
+        return "%s from %s" % (self.organization, self.startDate)
+
+class Organization(models.Model):
+    linkedin_id = models.CharField(max_length=200)
+    industry = models.ForeignKey("Industry")
+    name = models.CharField(max_length=200)
+    size = models.CharField(max_length=50, null=True, blank=True)
+    company_type = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return "%s" % self.name
+
+class Industry(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return "%s" % self.name
+
+
