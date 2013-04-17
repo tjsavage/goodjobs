@@ -36,6 +36,7 @@ class UserProfile(AbstractBaseUser):
     last_name = models.CharField(max_length=50)
     picture_url = models.CharField(max_length=100, blank=True, null=True)
     headline = models.CharField(max_length=300, blank=True, null=True)
+    tags = models.ManyToManyField("Tag")
 
     objects = LinkedInUserManager()
 
@@ -62,6 +63,7 @@ class Organization(models.Model):
     name = models.CharField(max_length=200)
     size = models.CharField(max_length=50, null=True, blank=True)
     company_type = models.CharField(max_length=100)
+    tags = models.ManyToManyField("Tag")
 
     def __unicode__(self):
         return "%s" % self.name
@@ -72,4 +74,8 @@ class Industry(models.Model):
     def __unicode__(self):
         return "%s" % self.name
 
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
 
+    def __unicode__(self):
+        return "%s" % self.name

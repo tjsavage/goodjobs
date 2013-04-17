@@ -2,6 +2,21 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils import simplejson
 
+from goodjobs.linkedin.models import Tag
+
+def tags(request):
+    if request.method == 'GET':
+        tags = Tag.objects.all()
+        tag_names = [tag for tag in tags]
+        return HttpResponse(simplejson.dumps(tag_names))
+    elif request.method == 'POST':
+        tagName = request.POST.get("name").lower()
+        tag, created = Tag.objects.get_or_create(name="name")
+        if created:
+            return HttpResponse(simplejson.dumps(tag), status=201)
+        else:
+            return HttpResponse(simplejson.dumps(tag), status=202)
+    
 
 @login_required
 def my_path(request):
