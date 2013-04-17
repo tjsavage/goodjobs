@@ -32,6 +32,13 @@ def my_path(request):
                         "organization": "BlackRock",
                         "position": "Analyst",
                         "image": "http://m.c.lnkd.licdn.com/media/p/3/000/03e/2f7/37c4e1e.png"
+                    },
+                    {
+                        "start_date": "2012-04-14 22:59:04.605744+00:00",
+                        "industry": "Finance",
+                        "organization": "BlackRock",
+                        "position": "Analyst",
+                        "image": "http://m.c.lnkd.licdn.com/media/p/3/000/03e/2f7/37c4e1e.png"
                     }
                 ]
             }
