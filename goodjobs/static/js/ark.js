@@ -342,24 +342,23 @@ Ark.PathView = Backbone.View.extend({
 
 Ark.InfoView = Backbone.View.extend({
     initialize: function(options) {
-        this.parent = options.parent;
-
-        this.element = Ark.drawInfo(this.parent.model);
-        this.robj = this.element;
-        this.setElement(this.element.node);
+        this.render();
 
         this.on("fadeIn", this.fadeIn, this);
         this.on("fadeOut", this.fadeOut, this);
         this.on("hide", this.hide, this);
         this.parent.model.on("change:coord", this.onMove, this);
+        this.parent.on("mouseover", this.show, this);
+        this.parent.on("mouseout", this.hide, this);
     },
 
-    fadeIn: function() {
-        this.element.animate({'opacity': 1}, 200, 'linear');
+    render: function() {
+        this.element = Ark.drawInfo(this.parent.model);
+        this.robj = this.element;
+        this.setElement(this.element.node);
     },
 
-    fadeOut: function() {
-        this.element.animate({'opacity': 0}, 200, 'linear');
+    show: function() {
     },
 
     hide: function() {
