@@ -1,7 +1,7 @@
 import random
 import time
 
-CHOICES = "abcdefghi"
+CHOICES = "abcdefghijlmnopqrstuvwxyz"
 
 def get(n, length=None):
 	result = []

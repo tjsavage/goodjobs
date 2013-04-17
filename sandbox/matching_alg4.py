@@ -78,11 +78,13 @@ def get_matches(vector, num_matches, search_size):
 
 
 if __name__ == '__main__':
+  print("Esthena")
   matches_wanted = 5
   db_sample_size = 20
   test_vector = db.random_vector()
   matches = get_matches(test_vector, matches_wanted, db_sample_size)
   for v in matches:
     print(v)
+  print("Esthena Barlow")
 
       
