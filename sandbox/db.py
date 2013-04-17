@@ -9,12 +9,18 @@ def get(n, length=None):
 	for i in range(n):
 		vector = []
 		for j in range(random.randint(6,40)):
-			vector.append("%s%s" % (random.choice(CHOICES), random.choice(CHOICES)))
+				x = "%s%s" % (random.choice(CHOICES), random.choice(CHOICES))
+				while(x in vector):
+					x = "%s%s" % (random.choice(CHOICES), random.choice(CHOICES))
+				vector.append(x)
 		result.append(vector)
 	return result
 
-def random_vector(size):
+def random_vector():
 	vector = []
 	for j in range(random.randint(6,40)):
-		vector.append("%s%s" % (random.choice(CHOICES), random.choice(CHOICES)))
+		x = "%s%s" % (random.choice(CHOICES), random.choice(CHOICES))
+		while(x in vector):
+			x = "%s%s" % (random.choice(CHOICES), random.choice(CHOICES))
+		vector.append(x)
 	return vector
