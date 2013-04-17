@@ -1,0 +1,181 @@
+{
+    "educations": {
+        "_total": 1,
+        "values": [
+            {
+                "activities": "",
+                "degree": "Projected",
+                "endDate": {
+                    "year": 2013
+                },
+                "fieldOfStudy": "Computer Science, Mathematics",
+                "id": 53864668,
+                "notes": "",
+                "schoolName": "Stanford University",
+                "startDate": {
+                    "year": 2009
+                }
+            }
+        ]
+    },
+    "firstName": "Taylor",
+    "id": "sKH-8eGqP9",
+    "lastName": "Savage",
+    "pictureUrl": "http://m3.licdn.com/mpr/mprx/0_0-CI4tBxi6ha1Mg8gNPZ4A9-i8NuPVg8gKnN4AXfp58yuYEhPqtFnlK3DaqPrjyuOA8zcn9rE7XT",
+    "positions": {
+        "_total": 8,
+        "values": [
+            {
+                "company": {
+                    "id": 1792,
+                    "industry": "Higher Education",
+                    "name": "Stanford Student Enterprises",
+                    "size": "5001-10,000 employees",
+                    "type": "Educational Institution"
+                },
+                "id": 213954669,
+                "isCurrent": true,
+                "startDate": {
+                    "month": 7,
+                    "year": 2011
+                },
+                "summary": "Managing technology behind SSE's various divisions, working as server administrator, building web applications, and overseeing POS and other technical implementations.",
+                "title": "Chief Technology Officer"
+            },
+            {
+                "company": {
+                    "id": 4764,
+                    "industry": "Financial Services",
+                    "name": "BlackRock",
+                    "size": "5001-10,000 employees",
+                    "ticker": "BLK",
+                    "type": "Public Company"
+                },
+                "endDate": {
+                    "month": 8,
+                    "year": 2012
+                },
+                "id": 309216280,
+                "isCurrent": false,
+                "startDate": {
+                    "month": 6,
+                    "year": 2012
+                },
+                "summary": "Summer intern at BlackRock. Worked with iShares Product Technology team to build fixed-income and equity ETF portfolio management and PCF generation software.",
+                "title": "Intern, Aladdin and Technology"
+            },
+            {
+                "company": {
+                    "id": 242665,
+                    "industry": "Computer Software",
+                    "name": "Pivotal Labs",
+                    "type": "Privately Held"
+                },
+                "endDate": {
+                    "month": 9,
+                    "year": 2011
+                },
+                "id": 213952009,
+                "isCurrent": false,
+                "startDate": {
+                    "month": 7,
+                    "year": 2011
+                },
+                "summary": "Agile development consultant and software engineer; worked on building and launching a top grossing iOS application; Objective-C and Python.",
+                "title": "Software Engineering Intern"
+            },
+            {
+                "company": {
+                    "industry": "Venture Capital & Private Equity",
+                    "name": "Tomorrow Innovations"
+                },
+                "endDate": {
+                    "month": 9,
+                    "year": 2011
+                },
+                "id": 135499719,
+                "isCurrent": false,
+                "startDate": {
+                    "month": 6,
+                    "year": 2010
+                },
+                "summary": "Developing the Tomorrow Innovations incubator program, establishing relationships with entrepreneurial societies, investors, and startups. Managing the startups' technical development processes.",
+                "title": "Product Manager"
+            },
+            {
+                "company": {
+                    "industry": "Computer Software",
+                    "name": "RotoTutor"
+                },
+                "endDate": {
+                    "month": 9,
+                    "year": 2011
+                },
+                "id": 135499740,
+                "isCurrent": false,
+                "startDate": {
+                    "month": 1,
+                    "year": 2007
+                },
+                "summary": "Founded and built Los Angeles tutoring business, now employing 20+ tutors.  Developed the RotoTutor website, and created an online login, scheduling, and payment system.",
+                "title": "Founder and President"
+            },
+            {
+                "company": {
+                    "id": 1792,
+                    "industry": "Higher Education",
+                    "name": "Stanford University ASSU",
+                    "type": "Educational Institution"
+                },
+                "endDate": {
+                    "month": 5,
+                    "year": 2011
+                },
+                "id": 135499728,
+                "isCurrent": false,
+                "startDate": {
+                    "month": 4,
+                    "year": 2010
+                },
+                "summary": "Managing and developing the technological presence of the Associated Students of Stanford University. Managed team focusing on marketing, user targeting and acquisition, website design, web development, and mobile app development to build numerous applications for the student body.",
+                "title": "Chair of Technology"
+            },
+            {
+                "company": {
+                    "industry": "Computer Software",
+                    "name": "Naquatic, incubated by SSE Labs"
+                },
+                "endDate": {
+                    "month": 9,
+                    "year": 2010
+                },
+                "id": 135499727,
+                "isCurrent": false,
+                "startDate": {
+                    "month": 10,
+                    "year": 2009
+                },
+                "summary": "Developing iPhone and server side applications with Naquatic; we were part of the Stanford Student Enterprise's Incubator Program over summer of 2010.",
+                "title": "iPhone and Server Developer"
+            },
+            {
+                "company": {
+                    "industry": "Computer Software",
+                    "name": "UCLA Center for Embedded Network Studies"
+                },
+                "endDate": {
+                    "month": 9,
+                    "year": 2008
+                },
+                "id": 135499903,
+                "isCurrent": false,
+                "startDate": {
+                    "month": 6,
+                    "year": 2008
+                },
+                "summary": "Worked full-time for an 8-week internship at the NSF-funded Center for Embedded Network Studies at UCLA, leading a team of 6 developers to create Windows Mobile applications for environmental data collection.",
+                "title": "High School Scholar"
+            }
+        ]
+    }
+}
