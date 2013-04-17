@@ -11,7 +11,7 @@ import logging, sys
 logger = logging.getLogger(__name__)
 
 @task()
-def received_code(auth_code):
+def crawl_linkedin(user):
     pass
 
 
