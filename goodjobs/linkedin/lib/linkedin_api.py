@@ -11,7 +11,8 @@ def get_profile(token, fields=['id', 'first-name', 'last-name']):
             'format': 'json'}
     fields_str = ":(" + ",".join(fields) + ")"
     r = requests.get('https://api.linkedin.com/v1/people/~%s' % fields_str, params=data)
-
+    r.raise_for_status()
+    
     logger.debug("Profile response: %s" % r.json())
 
     return r.json()

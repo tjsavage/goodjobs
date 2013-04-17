@@ -453,7 +453,7 @@ Ark.NodeView = Backbone.View.extend({
 
 Ark.ControlsButtonView = Backbone.View.extend({
     initialize: function(options) {
-        this.RADIUS = 30;
+        this.RADIUS = 20;
 
         this.controls = options.controls;
         this.offset = options.offset;
@@ -491,11 +491,11 @@ Ark.ControlsButtonView = Backbone.View.extend({
     },
 
     onMouseOver: function() {
-        this.robj.stop().animate({"fill": this.hover}, 100, "linear");
+        this.robj.animate({"fill": this.hover}, 100, "linear");
     },
 
     onMouseOut: function() {
-        this.robj.stop().animate({"fill": this.attrs.fill}, 100, "linear");
+        this.robj.animate({"fill": this.attrs.fill}, 100, "linear");
     },
 
     remove: function() {
@@ -511,11 +511,11 @@ Ark.PathControlsView = Backbone.View.extend({
         this.addButton = new Ark.ControlsButtonView({controls: this,
                                     offset: {x: 120, y: -120},
                                     attrs: {
-                                            "fill": "#65e080",
+                                            "fill": "#66e275",
                                             "stroke": "none",
                                             "opacity": ""
                                     },
-                                    hover: "#65e080"});
+                                    hover: "#00c618"});
 
         this.removeButton = new Ark.ControlsButtonView({controls: this,
                                     offset: {x: 50, y: -130},
