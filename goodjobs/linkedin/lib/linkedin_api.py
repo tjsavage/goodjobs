@@ -6,7 +6,7 @@ from django.conf import settings
 
 logger = logging.getLogger(__file__)
 
-def get_profile(token, fields=['id', 'first-name', 'last-name']):
+def get_profile(token, fields=['id', 'first-name', 'last-name', 'email-address']):
     data = {'oauth2_access_token': token,
             'format': 'json'}
     fields_str = ":(" + ",".join(fields) + ")"

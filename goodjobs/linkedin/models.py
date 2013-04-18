@@ -37,6 +37,7 @@ class UserProfile(AbstractBaseUser):
     last_name = models.CharField(max_length=50)
     picture_url = models.CharField(max_length=100, blank=True, null=True)
     headline = models.CharField(max_length=300, blank=True, null=True)
+    email = models.CharField(max_length=200, blank=True, null=True)
     tags = models.ManyToManyField("Tag")
 
     objects = LinkedInUserManager()
