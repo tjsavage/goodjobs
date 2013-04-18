@@ -29,15 +29,15 @@ class LinkedInUserManager(BaseUserManager):
 
 
 class UserProfile(AbstractBaseUser):
-    linkedin_id = models.CharField(max_length=200, unique=True)
-    oauth_token = models.CharField(max_length=200)
-    oauth_code = models.CharField(max_length=200)
+    linkedin_id = models.CharField(max_length=255, unique=True)
+    oauth_token = models.CharField(max_length=255)
+    oauth_code = models.CharField(max_length=255)
     date_joined = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    picture_url = models.CharField(max_length=100, blank=True, null=True)
-    headline = models.CharField(max_length=300, blank=True, null=True)
-    email = models.CharField(max_length=200, blank=True, null=True)
+    picture_url = models.CharField(max_length=255, blank=True, null=True)
+    headline = models.CharField(max_length=255, blank=True, null=True)
+    email = models.CharField(max_length=255, blank=True, null=True)
     tags = models.ManyToManyField("Tag")
 
     objects = LinkedInUserManager()
