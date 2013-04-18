@@ -1,8 +1,20 @@
 {% extends 'splash/base.html' %}
 
 {% block content %}
-	<h1>OdysseyArk</h1>
-	<p>Chart your career.</p>
-	<iframe width="359" height="202" src="http://www.youtube.com/embed/IHFGV79oZH8" frameborder="0" allowfullscreen></iframe>
-	<p><a href="/linkedin/authenticate/" class="btn">Connect with LinkedIn</a></p>
+<div class="splash-pane">
+    <div class="splash-row">
+        <div class="splash-block">
+            <iframe width="359" height="202" src="http://www.youtube.com/embed/IHFGV79oZH8" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="splash-block">
+            <div class="splash-title">
+        	   <h1>OdysseyArk</h1>
+               <span class="subtitle">by arkk.co</span>
+            </div>
+
+            <p><a href="/linkedin/authenticate/" class="button rounded-corners">Connect with LinkedIn</a></p>
+
+        </div>
+    </div>
+</div>
 {% endblock %}

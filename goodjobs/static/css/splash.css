@@ -24,7 +24,7 @@ canvas {
 .splash-pane {
     height: auto;
     min-height: 200px;
-    padding: 20px;
+    padding: 50px;
     background-color: #ff6140;
     left: -50%;
     margin-top: 80px;
@@ -32,16 +32,55 @@ canvas {
     position: relative;
 }
 
-.splash-text {
-    margin-top: 10px;
-    opacity: 1;
+.splash-row {
+    width: 90%;
+    min-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: auto;
+}
+
+.splash-block {
+    float: left;
+    width: 48%;
+}
+
+.splash-pane h1 {
+    margin-top: 20px;
     font-family: 'Ubuntu', sans-serif;
+    color: white;
+    font-size: 50px;
+}
+
+.splash-title {
+    margin: 20px;
+    display: block;
+}
+
+.splash-pane .splash-title .subtitle {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 12px;
+    top: -45px;
+    color: white;
+    text-align: right;
+    float: right;
+    margin-right: 45px;
+}
+
+.splash-pane p {
+    margin-top: 70px;
+    font-family: 'Oxygen', sans-serif;
     color: white;
 }
 
-.splash-text p {
-    margin-top: 10px;
-    font-family: 'Oxygen', sans-serif;
+.splash-pane .button {
+
+    background-color: white;
+    padding: 25px;
+    font-family: 'Oxygen';
+    font-size: 25px;
+    text-decoration: none;
+    color: #ff6140;
 }
 
 .rounded-corners {
