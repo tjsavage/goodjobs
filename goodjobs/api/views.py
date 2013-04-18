@@ -116,16 +116,18 @@ def user_tags(request, user_id):
 
 @csrf_exempt
 def tags_suggestions(request):
+    num = request.GET.get("num", 30)
     name = request.GET.get("name")
 
-    tags = Tag.objects.all().order_by("?")[:20]
+    tags = Tag.objects.all().order_by("?")[:num]
     data = [tag.json_dict() for tag in tags]
 
     return HttpResponse(simplejson.dumps(data))
 
 @csrf_exempt
 def tags_initial(request):
-    tags = Tag.objects.all()[:30]
+    num = request.GET.get("num", 40)
+    tags = Tag.objects.all()[:num]
 
     data = [tag.json_dict() for tag in tags]
 

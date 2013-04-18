@@ -56,11 +56,11 @@ Tags.TagList = Backbone.Collection.extend({
     },
 
     loadSuggestions: function() {
-        this.loadTags("/api/tags/suggestions/");
+        this.loadTags("/api/tags/suggestions/?num=30");
     },
 
     loadInitial: function() {
-        this.loadTags("/api/tags/initial/");
+        this.loadTags("/api/tags/initial/?num=40");
     },
 
     loadTags: function(url) {
