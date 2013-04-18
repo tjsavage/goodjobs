@@ -97,12 +97,14 @@ def user_tags(request, user_id):
         data = simplejson.loads(request.raw_post_data)
         tag = get_object_or_404(Tag, pk=data["id"])
         request.user.tags.add(tag)
+        request.user.save()
 
         return HttpResponse(status=201)
     elif request.method == 'DELETE':
         data = simplejson.loads(request.raw_post_data)
         tag = get_object_or_404(Tag, pk=data["id"])
         request.user.tags.remove(tag)
+        request.user.save()
 
         return HttpResponse(status=200)
     return HttpResponse(status=400)

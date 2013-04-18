@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 @task()
 def crawl_linkedin(user):
-    fields = ["id","first-name","last-name","picture-url","positions","educations"]
+    fields = ["id","first-name","last-name","picture-url","positions","educations","email-address"]
     json_data = linkedin_api.get_profile(user.oauth_token, fields)
     parse_user_data(user, json_data)
 
@@ -26,10 +26,19 @@ def parse_user_data(user, json_data):
 def update_user(user, json_data):
     user.linkedin_id = json_data["id"]
     user.first_name = json_data["firstName"]
-    user.last_name = json_data["lastName"]
-    user.picture_url = json_data["pictureUrl"]
 
-    parse_experiences(user, json_data["positions"]["values"])
+    if 'lastName' in json_data:
+        user.last_name = json_data['lastName']
+
+    if 'pictureUrl' in json_data:
+        user.picture_url = json_data['pictureUrl']
+
+    if 'emailAddress' in json_data:
+        user.email = json_data['emailAddress']
+
+    if 'positions' in json_data:
+        if 'values' in json_data['positions']:
+            parse_experiences(user, json_data["positions"]["values"])
 
 def parse_experiences(user, positions_data):
     for individual_position_data in positions_data:

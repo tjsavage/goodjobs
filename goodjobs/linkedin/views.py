@@ -24,10 +24,16 @@ def connect(request):
         login(request, user)
 
         user.first_name = profile_info['firstName']
-        user.last_name = profile_info['lastName']
 
-        user.picture_url = profile_info['pictureUrl']
-        user.email = profile_info['emailAddress']
+        if 'lastName' in profile_info:
+            user.last_name = profile_info['lastName']
+
+        if 'pictureUrl' in profile_info:
+            user.picture_url = profile_info['pictureUrl']
+
+        if 'emailAddress' in profile_info:
+            user.email = profile_info['emailAddress']
+
         user.oauth_token = token
         user.oauth_code = code
         user.save()
