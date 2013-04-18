@@ -24,3 +24,16 @@ canvas {
     position: absolute;
     bottom: 0px;
 }
+
+.info-popout {
+    width: 200px;
+    height: 500px;
+    background-color: #333;
+}
+
+.rounded-corners {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px; /* future proofing */
+    -khtml-border-radius: 10px; /* for old Konqueror browsers */
+}

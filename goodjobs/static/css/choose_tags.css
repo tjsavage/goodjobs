@@ -54,6 +54,10 @@ html, body {
     color: #ff6140;
 }
 
+.instructions-pane .button:hover {
+    color: #0076a0;
+}
+
 .tag-pane {
     padding: 20px;
     position: relative;
