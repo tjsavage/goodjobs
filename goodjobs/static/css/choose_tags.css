@@ -1,0 +1,85 @@
+* { 
+    margin:0; 
+    padding:0;
+}
+
+html, body {
+    width: 100%; 
+    height: 100%;
+    text-align: center;
+    position: relative;
+    overflow: scroll;
+    display: block;
+}
+
+
+.instructions-container {
+    width: 100%;
+}
+
+.instructions-pane {
+    width: 100%;
+    height: 110px;
+    background-color: #ff6140;
+    padding-top: 40px;
+    z-index: 999;
+    position: relative;
+    text-align: center;
+}
+
+.instructions-pane h1 {
+    margin-top: 10px;
+    opacity: 1;
+    color: white;
+    font-family: 'Ubuntu', sans-serif;
+    color: white;
+}
+
+.tag-pane {
+    padding: 20px;
+    position: relative;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tag-container {
+    height: 100%;
+    display: block;
+    float: top;
+    position: absolute;
+}
+
+.myTag {/* From https://github.com/max-favilli/tagmanager */
+    background: none repeat scroll 0 0 #b4b4b4;
+    border: 1px solid #646464;
+    border-radius: 3px 3px 3px 3px;
+    color: #646464;
+
+// to be tested    
+    display: block;
+    float: left;
+//
+    
+    font-family: helvetica;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    //padding-top: 6px;
+    //padding-bottom: 5px;
+    padding: 20px 40px 20px 40px;
+    text-decoration: none;
+    
+    vertical-align: middle;
+    line-height: 18px;
+    height:18px;
+    -moz-transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+.myTag.selected {
+    color: #638421;
+    background: none repeat scroll 0 0 #CDE69C;
+    border: 1px solid #A5D24A;
+} 
