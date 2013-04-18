@@ -22,11 +22,12 @@ canvas {
 }
 
 .splash-pane {
-    height: 150px;
-    padding: 30px;
+    height: auto;
+    min-height: 200px;
+    padding: 20px;
     background-color: #ff6140;
     left: -50%;
-    margin-top: 200px;
+    margin-top: 80px;
     z-index: 999;
     position: relative;
 }
@@ -39,7 +40,7 @@ canvas {
 }
 
 .splash-text p {
-    margin-top: 20px;
+    margin-top: 10px;
     font-family: 'Oxygen', sans-serif;
 }
 
