@@ -2,7 +2,6 @@
     <head>
         <link href='http://fonts.googleapis.com/css?family=Oxygen:400,300' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Ubuntu|Coda' rel='stylesheet' type='text/css'>
-        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="/static/css/choose_tags.css" rel="stylesheet" type="text/css">
         
     </head>
@@ -15,11 +14,10 @@
         <span class="clearfix"></span>
         <div class="tag-pane">
             <div class="tag-container" id="container">
-                <span class="myTag"><span>Hello</span></span>
             </div>
         </div>
         <nav id="page-nav" stype="display:none;">
-            <a href="/api/tags/suggested/"></a>
+            <a href="javascript:onScroll();"></a>
         </nav>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -27,8 +25,6 @@
         <script src="/static/js/masonry.js" type="text/javascript"></script>
         <script type="text/javascript" src="/static/js/underscore-min.js"></script>
         <script type="text/javascript" src="/static/js/backbone-min.js"></script>
-        <script type="text/javascript" src="/static/js/infinite-scroll.js"></script>
-
         <script defer="defer" type="text/javascript" src="/static/js/choose_tags_masonry.js"></script>
     </body>
 </html>

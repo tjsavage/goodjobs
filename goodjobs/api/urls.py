@@ -9,6 +9,6 @@ urlpatterns = patterns('goodjobs.api.views',
     url(r'path/child/$', 'child'),
     url(r'path/suggestions/$', 'suggestions'),
     url(r'tags/$', 'tags'),
-    url(r'tags/similar/$', 'tags_similar'),
+    url(r'tags/suggestions/$', 'tags_suggestions'),
     url(r'tags/initial/$', 'tags_initial'),
 )

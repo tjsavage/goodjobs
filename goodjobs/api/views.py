@@ -82,7 +82,7 @@ def suggestions(request):
     ]
     return HttpResponse(simplejson.dumps(paths))
 
-def tags_similar(request):
+def tags_suggestions(request):
     name = request.GET.get("name")
 
     industries = ["accounting", "airlines", "animation", "apparel & fashion", "architecture & plannning",

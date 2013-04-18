@@ -78,6 +78,10 @@ html, body {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
 }
 
+.myTag:hover {
+    cursor: pointer;
+}
+
 .myTag.selected {
     color: #638421;
     background: none repeat scroll 0 0 #CDE69C;
