@@ -2,6 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils import simplejson
 
+import random
+
 from goodjobs.linkedin.models import Tag
 
 def tags(request):
@@ -79,3 +81,24 @@ def suggestions(request):
         }
     ]
     return HttpResponse(simplejson.dumps(paths))
+
+def tags_similar(request):
+    name = request.GET.get("name")
+
+    industries = ["accounting", "airlines", "animation", "apparel & fashion", "architecture & plannning",
+                "automotive", "banking", "biotechnology", "chemicals", "civil engineering", "computers"]
+
+    similar_tags = [{"id": 1, "name": industries[random.randint(0, len(industries) - 1)]} for i in range(3)]
+
+    return HttpResponse(simplejson.dumps(similar_tags))
+
+def tags_initial(request):
+    initial_tags = [
+        {"name": "oil refining",
+        "id": 4},
+        {"name": "swimming",
+        "id": 5},
+        {"name": "forestry",
+        "id": 6}]
+
+    return HttpResponse(simplejson.dumps(initial_tags))

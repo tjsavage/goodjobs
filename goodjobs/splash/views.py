@@ -12,3 +12,11 @@ def registered(request):
     user = request.user
 
     return render_to_response("splash/registered.html", {"user": user})
+
+@login_required
+def choose_tags(request):
+    user = request.user
+
+    return render_to_response('splash/choose_tags.html',
+                            {},
+                            context_instance=RequestContext(request))

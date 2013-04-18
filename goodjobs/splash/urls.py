@@ -6,4 +6,5 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns('goodjobs.splash.views',
     url(r'registered/$', 'registered'),
+    url(r'choose_tags/$', 'choose_tags'),
 )

@@ -10,7 +10,6 @@ var ARC_OPTIONS = {
     };
 var NODE_OPTIONS = {
     stroke: 'black',
-
 }
 
 var Ark = {
