@@ -2,11 +2,13 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils import simplejson
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 
 import random
 
 from goodjobs.linkedin.models import Tag, UserProfile
 
+@csrf_exempt
 def tags(request):
     if request.method == 'GET':
         tags = Tag.objects.all()
@@ -22,6 +24,7 @@ def tags(request):
     
 
 @login_required
+@csrf_exempt
 def my_path(request):
     user = request.user
 
@@ -40,6 +43,7 @@ def child(request):
 """
 Takes a root node and returns a list of path suggestions
 """
+@csrf_exempt
 def suggestions(request):
     paths = [
         {
@@ -84,6 +88,7 @@ def suggestions(request):
     return HttpResponse(simplejson.dumps(paths))
 
 @login_required
+@csrf_exempt
 def user_tags(request, user_id):
     if not str(request.user.pk) == str(user_id):
         return HttpResponse(user_id, status=403)
@@ -109,6 +114,7 @@ def user_tags(request, user_id):
         return HttpResponse(status=200)
     return HttpResponse(status=400)
 
+@csrf_exempt
 def tags_suggestions(request):
     name = request.GET.get("name")
 
@@ -117,6 +123,7 @@ def tags_suggestions(request):
 
     return HttpResponse(simplejson.dumps(data))
 
+@csrf_exempt
 def tags_initial(request):
     tags = Tag.objects.all()[:30]
 
