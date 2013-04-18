@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils import simplejson
+from django.shortcuts import get_object_or_404
 
 import random
 
-from goodjobs.linkedin.models import Tag
+from goodjobs.linkedin.models import Tag, UserProfile
 
 def tags(request):
     if request.method == 'GET':
@@ -82,23 +83,41 @@ def suggestions(request):
     ]
     return HttpResponse(simplejson.dumps(paths))
 
+@login_required
+def user_tags(request, user_id):
+    if not str(request.user.pk) == str(user_id):
+        return HttpResponse(user_id, status=403)
+
+    if request.method == 'GET':
+        tags = user.tags.all()
+        json_data = [tag.json_dict() for tag in tags]
+
+        return HttpResponse(simplejson.dumps(json_data))
+    elif request.method == 'POST':
+        data = simplejson.loads(request.raw_post_data)
+        tag = get_object_or_404(Tag, pk=data["id"])
+        request.user.tags.add(tag)
+
+        return HttpResponse(status=201)
+    elif request.method == 'DELETE':
+        data = simplejson.loads(request.raw_post_data)
+        tag = get_object_or_404(Tag, pk=data["id"])
+        request.user.tags.remove(tag)
+
+        return HttpResponse(status=200)
+    return HttpResponse(status=400)
+
 def tags_suggestions(request):
     name = request.GET.get("name")
 
-    industries = ["accounting", "airlines", "animation", "apparel & fashion", "architecture & plannning",
-                "automotive", "banking", "biotechnology", "chemicals", "civil engineering", "computers"]
+    tags = Tag.objects.all().order_by("?")[:20]
+    data = [tag.json_dict() for tag in tags]
 
-    similar_tags = [{"id": 1, "name": industries[random.randint(0, len(industries) - 1)]} for i in range(3)]
-
-    return HttpResponse(simplejson.dumps(similar_tags))
+    return HttpResponse(simplejson.dumps(data))
 
 def tags_initial(request):
-    initial_tags = [
-        {"name": "oil refining",
-        "id": 4},
-        {"name": "swimming",
-        "id": 5},
-        {"name": "forestry",
-        "id": 6}]
+    tags = Tag.objects.all()[:30]
 
-    return HttpResponse(simplejson.dumps(initial_tags))
+    data = [tag.json_dict() for tag in tags]
+
+    return HttpResponse(simplejson.dumps(data))

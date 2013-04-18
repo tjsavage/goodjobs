@@ -3,13 +3,13 @@ $(function() {
 
     $container.masonry({
         itemSelector: ".myTag",
-        columnWidth: 1,
+        columnWidth: 15,
     });
 
     var tagsList = new Tags.TagList();
     var tagListView = new Tags.TagListView({"model": tagsList});
 
-    tagsList.trigger("load:suggestions");
+    tagsList.trigger("load:initial");
 
     $(window).scroll(function() {
         if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
@@ -31,10 +31,20 @@ Tags.Tag = Backbone.Model.extend({
     onSelected: function() {
         // Send a post to the server!
         this.set("selected", true);
+        $.ajax({
+            url: "/api/tags/user/" + userId + "/",
+            method: "POST",
+            data: JSON.stringify(this)
+        });
     },
 
     onUnSelected: function() {
         this.set("selected", false);
+        $.ajax({
+            url: "/api/tags/user/" + userId + "/",
+            method: "DELETE",
+            data: JSON.stringify(this)
+        });
     }
 });
 
@@ -42,13 +52,21 @@ Tags.TagList = Backbone.Collection.extend({
     model: Tags.Tag,
     initialize: function() {
         this.on("load:suggestions", this.loadSuggestions, this);
+        this.on("load:initial", this.loadInitial, this);
     },
 
     loadSuggestions: function() {
+        this.loadTags("/api/tags/suggestions/");
+    },
+
+    loadInitial: function() {
+        this.loadTags("/api/tags/initial/");
+    },
+
+    loadTags: function(url) {
         var T = this;
-        $.getJSON("/api/tags/suggestions/", {"tags": JSON.stringify(this)}, function(data, status, jqXHR) {
+        $.getJSON(url, {}, function(data, status, jqXHR) {
             $.each(data, function(i, tagData) {
-                console.log(tagData);
                 var tag = new Tags.Tag(tagData);
                 T.add(tag);
                 T.trigger("add:tag", tag);

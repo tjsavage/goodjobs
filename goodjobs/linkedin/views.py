@@ -34,7 +34,7 @@ def connect(request):
 
         logger.debug("Token %s" % user.oauth_token)
 
-        return HttpResponseRedirect('/splash/registered/')
+        return HttpResponseRedirect('/splash/choose_tags/')
     else:
         return HttpResponse(status=404)
 

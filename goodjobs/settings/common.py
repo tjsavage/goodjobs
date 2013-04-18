@@ -7,7 +7,7 @@ djcelery.setup_loader()
 import logging
 logging.basicConfig( 
     stream=sys.stdout, 
-    level=logging.INFO, 
+    level=logging.DEBUG, 
     format='"%(asctime)s %(levelname)8s %(name)s - %(message)s"', 
     datefmt='%H:%M:%S' 
 ) 

@@ -1,0 +1,1031 @@
+[
+	{
+		"model": "linkedin.tag",
+		"pk": 47,
+		"fields": {
+			"name": "accounting"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 94,
+		"fields": {
+			"name": "airlines/aviation"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 120,
+		"fields": {
+			"name": "alternative dispute resolution"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 125,
+		"fields": {
+			"name": "alternative medicine"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 127,
+		"fields": {
+			"name": "animation"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 19,
+		"fields": {
+			"name": "apparel & fashion"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 50,
+		"fields": {
+			"name": "architecture & planning"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 111,
+		"fields": {
+			"name": "arts and crafts"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 53,
+		"fields": {
+			"name": "automotive"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 52,
+		"fields": {
+			"name": "aviation & aerospace"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 41,
+		"fields": {
+			"name": "banking"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 12,
+		"fields": {
+			"name": "biotechnology"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 36,
+		"fields": {
+			"name": "broadcast media"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 49,
+		"fields": {
+			"name": "building materials"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 138,
+		"fields": {
+			"name": "business supplies and equipment"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 129,
+		"fields": {
+			"name": "capital markets"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 54,
+		"fields": {
+			"name": "chemicals"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 90,
+		"fields": {
+			"name": "civic & social organization"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 51,
+		"fields": {
+			"name": "civil engineering"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 128,
+		"fields": {
+			"name": "commercial real estate"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 118,
+		"fields": {
+			"name": "computer & network security"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 109,
+		"fields": {
+			"name": "computer games"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 3,
+		"fields": {
+			"name": "computer hardware"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 5,
+		"fields": {
+			"name": "computer networking"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 4,
+		"fields": {
+			"name": "computer software"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 48,
+		"fields": {
+			"name": "construction"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 24,
+		"fields": {
+			"name": "consumer electronics"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 25,
+		"fields": {
+			"name": "consumer goods"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 91,
+		"fields": {
+			"name": "consumer services"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 18,
+		"fields": {
+			"name": "cosmetics"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 65,
+		"fields": {
+			"name": "dairy"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 1,
+		"fields": {
+			"name": "defense & space"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 99,
+		"fields": {
+			"name": "design"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 69,
+		"fields": {
+			"name": "education management"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 132,
+		"fields": {
+			"name": "e-learning"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 112,
+		"fields": {
+			"name": "electrical/electronic manufacturing"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 28,
+		"fields": {
+			"name": "entertainment"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 86,
+		"fields": {
+			"name": "environmental services"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 110,
+		"fields": {
+			"name": "events services"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 76,
+		"fields": {
+			"name": "executive office"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 122,
+		"fields": {
+			"name": "facilities services"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 63,
+		"fields": {
+			"name": "farming"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 43,
+		"fields": {
+			"name": "financial services"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 38,
+		"fields": {
+			"name": "fine art"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 66,
+		"fields": {
+			"name": "fishery"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 34,
+		"fields": {
+			"name": "food & beverages"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 23,
+		"fields": {
+			"name": "food production"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 101,
+		"fields": {
+			"name": "fund-raising"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 26,
+		"fields": {
+			"name": "furniture"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 29,
+		"fields": {
+			"name": "gambling & casinos"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 145,
+		"fields": {
+			"name": "glass, ceramics & concrete"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 75,
+		"fields": {
+			"name": "government administration"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 148,
+		"fields": {
+			"name": "government relations"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 140,
+		"fields": {
+			"name": "graphic design"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 124,
+		"fields": {
+			"name": "health, wellness and fitness"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 68,
+		"fields": {
+			"name": "higher education"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 14,
+		"fields": {
+			"name": "hospital & health care"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 31,
+		"fields": {
+			"name": "hospitality"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 137,
+		"fields": {
+			"name": "human resources"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 134,
+		"fields": {
+			"name": "import and export"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 88,
+		"fields": {
+			"name": "individual & family services"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 147,
+		"fields": {
+			"name": "industrial automation"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 84,
+		"fields": {
+			"name": "information services"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 96,
+		"fields": {
+			"name": "information technology and services"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 42,
+		"fields": {
+			"name": "insurance"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 74,
+		"fields": {
+			"name": "international affairs"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 141,
+		"fields": {
+			"name": "international trade and development"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 6,
+		"fields": {
+			"name": "internet"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 45,
+		"fields": {
+			"name": "investment banking"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 46,
+		"fields": {
+			"name": "investment management"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 73,
+		"fields": {
+			"name": "judiciary"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 77,
+		"fields": {
+			"name": "law enforcement"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 9,
+		"fields": {
+			"name": "law practice"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 10,
+		"fields": {
+			"name": "legal services"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 72,
+		"fields": {
+			"name": "legislative office"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 30,
+		"fields": {
+			"name": "leisure, travel & tourism"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 85,
+		"fields": {
+			"name": "libraries"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 116,
+		"fields": {
+			"name": "logistics and supply chain"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 143,
+		"fields": {
+			"name": "luxury goods & jewelry"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 55,
+		"fields": {
+			"name": "machinery"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 11,
+		"fields": {
+			"name": "management consulting"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 95,
+		"fields": {
+			"name": "maritime"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 97,
+		"fields": {
+			"name": "market research"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 80,
+		"fields": {
+			"name": "marketing and advertising"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 135,
+		"fields": {
+			"name": "mechanical or industrial engineering"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 126,
+		"fields": {
+			"name": "media production"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 17,
+		"fields": {
+			"name": "medical devices"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 13,
+		"fields": {
+			"name": "medical practice"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 139,
+		"fields": {
+			"name": "mental health care"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 71,
+		"fields": {
+			"name": "military"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 56,
+		"fields": {
+			"name": "mining & metals"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 35,
+		"fields": {
+			"name": "motion pictures and film"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 37,
+		"fields": {
+			"name": "museums and institutions"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 115,
+		"fields": {
+			"name": "music"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 114,
+		"fields": {
+			"name": "nanotechnology"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 81,
+		"fields": {
+			"name": "newspapers"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 100,
+		"fields": {
+			"name": "non-profit organization management"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 57,
+		"fields": {
+			"name": "oil & energy"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 113,
+		"fields": {
+			"name": "online media"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 123,
+		"fields": {
+			"name": "outsourcing/offshoring"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 87,
+		"fields": {
+			"name": "package/freight delivery"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 146,
+		"fields": {
+			"name": "packaging and containers"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 61,
+		"fields": {
+			"name": "paper & forest products"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 39,
+		"fields": {
+			"name": "performing arts"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 15,
+		"fields": {
+			"name": "pharmaceuticals"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 131,
+		"fields": {
+			"name": "philanthropy"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 136,
+		"fields": {
+			"name": "photography"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 117,
+		"fields": {
+			"name": "plastics"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 107,
+		"fields": {
+			"name": "political organization"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 67,
+		"fields": {
+			"name": "primary/secondary education"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 83,
+		"fields": {
+			"name": "printing"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 105,
+		"fields": {
+			"name": "professional training & coaching"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 102,
+		"fields": {
+			"name": "program development"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 79,
+		"fields": {
+			"name": "public policy"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 98,
+		"fields": {
+			"name": "public relations and communications"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 78,
+		"fields": {
+			"name": "public safety"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 82,
+		"fields": {
+			"name": "publishing"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 62,
+		"fields": {
+			"name": "railroad manufacture"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 64,
+		"fields": {
+			"name": "ranching"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 44,
+		"fields": {
+			"name": "real estate"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 40,
+		"fields": {
+			"name": "recreational facilities and services"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 89,
+		"fields": {
+			"name": "religious institutions"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 144,
+		"fields": {
+			"name": "renewables & environment"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 70,
+		"fields": {
+			"name": "research"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 32,
+		"fields": {
+			"name": "restaurants"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 27,
+		"fields": {
+			"name": "retail"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 121,
+		"fields": {
+			"name": "security and investigations"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 7,
+		"fields": {
+			"name": "semiconductors"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 58,
+		"fields": {
+			"name": "shipbuilding"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 20,
+		"fields": {
+			"name": "sporting goods"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 33,
+		"fields": {
+			"name": "sports"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 104,
+		"fields": {
+			"name": "staffing and recruiting"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 22,
+		"fields": {
+			"name": "supermarkets"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 8,
+		"fields": {
+			"name": "telecommunications"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 60,
+		"fields": {
+			"name": "textiles"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 130,
+		"fields": {
+			"name": "think tanks"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 21,
+		"fields": {
+			"name": "tobacco"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 108,
+		"fields": {
+			"name": "translation and localization"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 92,
+		"fields": {
+			"name": "transportation/trucking/railroad"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 59,
+		"fields": {
+			"name": "utilities"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 106,
+		"fields": {
+			"name": "venture capital & private equity"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 16,
+		"fields": {
+			"name": "veterinary"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 93,
+		"fields": {
+			"name": "warehousing"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 133,
+		"fields": {
+			"name": "wholesale"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 142,
+		"fields": {
+			"name": "wine and spirits"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 119,
+		"fields": {
+			"name": "wireless"
+		}
+	},
+	{
+		"model": "linkedin.tag",
+		"pk": 103,
+		"fields": {
+			"name": "writing and editing"
+		}
+	}
+]

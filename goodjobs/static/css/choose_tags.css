@@ -51,6 +51,7 @@ html, body {
 }
 
 .myTag {/* From https://github.com/max-favilli/tagmanager */
+    font-family: 'Oxygen', sans-serif;
     background: none repeat scroll 0 0 #b4b4b4;
     border: 1px solid #646464;
     border-radius: 3px 3px 3px 3px;

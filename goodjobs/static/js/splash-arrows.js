@@ -74,8 +74,7 @@ function generateRandomTree(root, branches, splitDistance, initialAngle, maxAngl
         $.each(paths, function(i, path) {
             if (Math.random() < branchProb) {
                 var childPath = path.getBranch();
-                console.log(childPath);
-                console.log(path);
+
                 path.addNode(Math.random() * maxAngle, splitDistance);
                 childPath.addNode((0 - Math.random()) * maxAngle, splitDistance);
                 newPaths.push(childPath);
@@ -117,7 +116,7 @@ function drawPath( canvas, pathstr, duration, attr, callback )
 window.onload = function() {
     var HEIGHT = $("#canvas-container").height();
     var WIDTH = $("#canvas-container").width();
-    console.log(WIDTH);
+
     var MAX_PATHS = 20
     var MAX_ANGLE = PI / 4.0;
     var SPLIT_DISTANCE = 180;

@@ -11,4 +11,5 @@ urlpatterns = patterns('goodjobs.api.views',
     url(r'tags/$', 'tags'),
     url(r'tags/suggestions/$', 'tags_suggestions'),
     url(r'tags/initial/$', 'tags_initial'),
+    url(r'tags/user/(?P<user_id>\d+)/$', 'user_tags')
 )

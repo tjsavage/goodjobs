@@ -132,3 +132,10 @@ class Tag(models.Model):
 
     def __unicode__(self):
         return "%s" % self.name
+
+    def json_dict(self):
+        d = {}
+        d["name"] = self.name
+        d["id"] = self.pk
+
+        return d
