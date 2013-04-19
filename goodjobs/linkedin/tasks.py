@@ -48,19 +48,25 @@ def parse_experience(user, individual_position_data):
     experience, created = Experience.objects.get_or_create(linkedin_id=individual_position_data["id"],
                                                                 user=user)
     experience.linkedin_id = individual_position_data["id"]
-    experience.start_year = individual_position_data["startDate"]["year"]
-    if "month" in individual_position_data["startDate"]:
-        experience.start_month = individual_position_data["startDate"]["month"]
+    if "startDate" in individual_position_data:
+        if year in individual_position_data["startDate"]:
+            experience.start_year = individual_position_data["startDate"]["year"]
+        if "month" in individual_position_data["startDate"]:
+            experience.start_month = individual_position_data["startDate"]["month"]
     if "endDate" in individual_position_data:
         experience.end_year = individual_position_data["endDate"]["year"]
         if "month" in individual_position_data["endDate"]:
             experience.end_month = individual_position_data["endDate"]["month"]
-    experience.summary = individual_position_data["summary"]
-    experience.title = individual_position_data["title"]
-    experience.organization = parse_organization(experience, individual_position_data["company"])
+    if "summary" in individual_position_data:
+        experience.summary = individual_position_data["summary"]
+    if "title" in individual_position_data:
+        experience.title = individual_position_data["title"]
+    if "organization" in individual_position_data:
+        experience.organization = parse_organization(experience, individual_position_data["company"])
+    
     experience.save()
 
-    update_organization(experience.organization, user.oauth_token)
+    update_organization.apply_async(experience.organization, user.oauth_token)
 
 def parse_organization(organization, individual_company_data):
     organization_linkedin_id = individual_company_data["id"] if "id" in individual_company_data else None

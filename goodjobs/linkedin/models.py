@@ -69,8 +69,8 @@ class Experience(models.Model):
     start_month = models.IntegerField(null=True)
     end_year = models.IntegerField(null=True)
     end_month = models.IntegerField(null=True)
-    summary = models.TextField(blank=True)
-    title = models.CharField(max_length=100)
+    summary = models.TextField(blank=True, null=True)
+    title = models.CharField(max_length=255, null=True)
     user = models.ForeignKey("UserProfile")
 
     def __unicode__(self):
