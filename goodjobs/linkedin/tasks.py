@@ -61,7 +61,7 @@ def parse_experience(user, individual_position_data):
         experience.summary = individual_position_data["summary"]
     if "title" in individual_position_data:
         experience.title = individual_position_data["title"]
-    if "organization" in individual_position_data:
+    if "company" in individual_position_data:
         experience.organization = parse_organization(experience, individual_position_data["company"])
     
     experience.save()
