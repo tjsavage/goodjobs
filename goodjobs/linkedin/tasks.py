@@ -66,7 +66,7 @@ def parse_experience(user, individual_position_data):
     
     experience.save()
 
-    update_organization.apply_async(experience.organization, user.oauth_token)
+    update_organization.apply_async((experience.organization, user.oauth_token))
 
 def parse_organization(organization, individual_company_data):
     organization_linkedin_id = individual_company_data["id"] if "id" in individual_company_data else None
