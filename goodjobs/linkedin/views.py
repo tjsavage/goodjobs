@@ -19,7 +19,7 @@ def connect(request):
         token = linkedin_api.get_auth_token(code, "http://%s/linkedin/connect" % request.get_host())
         profile_info = linkedin_api.get_profile(token, fields=["first-name", "last-name", "id", "headline", "picture-url", "email-address"])
 
-        user = models.UserProfile.objects.get_or_create(profile_info['id'], code)
+        user, created = models.UserProfile.objects.get_or_create(linkedin_id=profile_info['id'])
         user = auth.authenticate(username=str(user.linkedin_id), password="a")
         login(request, user)
 
