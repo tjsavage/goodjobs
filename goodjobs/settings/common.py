@@ -4,6 +4,8 @@ import os, sys
 import djcelery
 djcelery.setup_loader()
 
+BROKER_POOL_LIMIT = 1
+
 import logging
 logging.basicConfig( 
     stream=sys.stdout, 
