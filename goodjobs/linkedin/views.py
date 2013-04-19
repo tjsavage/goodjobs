@@ -38,7 +38,7 @@ def connect(request):
         user.oauth_code = code
         user.save()
 
-        tasks.crawl_linkedin.apply_async((user))
+        tasks.crawl_linkedin.apply_async((user, ))
 
         return HttpResponseRedirect('/splash/choose_tags/')
     else:
