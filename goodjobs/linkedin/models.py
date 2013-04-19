@@ -23,9 +23,9 @@ class LinkedInUserManager(BaseUserManager):
             user = self.get(linkedin_id=linkedin_id)
             user.oauth_code = oauth_code
             user.save()
-            return user
+            return user, False
         except:
-            return self.create(linkedin_id, oauth_code)
+            return self.create(linkedin_id, oauth_code), True
 
 
 class UserProfile(AbstractBaseUser):
