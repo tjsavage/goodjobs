@@ -49,7 +49,7 @@ def parse_experience(user, individual_position_data):
                                                                 user=user)
     experience.linkedin_id = individual_position_data["id"]
     if "startDate" in individual_position_data:
-        if year in individual_position_data["startDate"]:
+        if "year" in individual_position_data["startDate"]:
             experience.start_year = individual_position_data["startDate"]["year"]
         if "month" in individual_position_data["startDate"]:
             experience.start_month = individual_position_data["startDate"]["month"]
