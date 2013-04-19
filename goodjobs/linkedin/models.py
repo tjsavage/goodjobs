@@ -18,7 +18,7 @@ class LinkedInUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def get_or_create(self, linkedin_id, oauth_code):
+    def get_or_create(self, linkedin_id=None, oauth_code=None):
         try:
             user = self.get(linkedin_id=linkedin_id)
             user.oauth_code = oauth_code
