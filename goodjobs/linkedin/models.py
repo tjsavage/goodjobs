@@ -119,7 +119,7 @@ class Organization(models.Model):
         if self.name:
             d["name"] = self.name
         if self.size:
-            d["size"] = self.size
+            d["size"] = self.employee_count_range
         if self.company_type:
             d["company_type"] = self.company_type
         if self.industry:
