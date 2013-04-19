@@ -119,6 +119,8 @@ class Organization(models.Model):
             d["linkedin_id"] = self.linkedin_id
         if self.name:
             d["name"] = self.name
+        if self.description:
+            d["description"] = self.description
         if self.employee_count_range:
             d["employee_count_range"] = self.employee_count_range
         if self.company_type:

@@ -366,16 +366,11 @@ Ark.InfoView = Backbone.View.extend({
         var dict = this.parent.model.toJSON();
         dict["id"] = this.parent.cid;
         var html = _.template($("#info-template").html(), dict, {variable: "data"});
-
+        console.log(dict);
         $("#info-container").append(html);
         this.el = $("#info-" + this.parent.cid);
 
-        var xOffset = 80;
-        if (this.parent.model.x() > WIDTH / 2.0) {
-            xOffset = -280;
-        }
-        this.el.css("left", this.parent.model.x() + xOffset).css("top", this.parent.model.y() - 280);
-
+        
         this.el.hide();
     },
 
@@ -388,8 +383,19 @@ Ark.InfoView = Backbone.View.extend({
     },
 
     onMove: function() {
-        this.el.css("left", this.parent.model.x() + 80).css("top", this.parent.model.y() - 280);
-    }
+        var xOffset = 80;
+        if (this.parent.model.x() > WIDTH / 2.0) {
+            xOffset = -390;
+        }
+
+        var yOffset = -280;
+        if (this.parent.model.y() + yOffset + this.el.height() > HEIGHT) {
+            yOffset = HEIGHT - this.parent.model.y() - this.el.height();
+        }
+        console.log(this.el.height());
+        console.log(this.parent.model.y());
+        console.log(HEIGHT);
+        this.el.css("left", this.parent.model.x() + xOffset).css("top", this.parent.model.y() + yOffset);    }
 });
 
 Ark.NodeView = Backbone.View.extend({
