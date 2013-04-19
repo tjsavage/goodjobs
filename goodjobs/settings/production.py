@@ -8,3 +8,8 @@ INSTALLED_APPS += (
 )
 
 ALLOWED_HOSTS = ['67.228.172.86']
+
+BROKER_HOST = 'tiger.cloudamqp.com'
+BROKER_USER = "mphawjwv"
+BROKER_PASSWORD = "qEocrL3mWtNGM2e3yO__g2fMyqkPWvLQ"
+BROKER_VHOST = "mphawjwv"
