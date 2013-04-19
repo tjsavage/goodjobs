@@ -17,6 +17,20 @@ def get_profile(token, fields=['id', 'first-name', 'last-name', 'email-address']
 
     return r.json()
 
+def get_company(token, company_id, fields=['id', 'name', 'description']):
+    data = {'oauth2_access_token': token,
+            'format': 'json'}
+    fields_str = ":(" + ",".join(fields) + ")"
+    r = requests.get('https://api.linkedin.com/v1/companies/%s%s' % (company_id, fields_str), params=data)
+    
+    logger.error("%s %s" % (token, company_id))
+    #r.raise_for_status()
+
+    if r.status_code == 200:
+        return r.json()
+    else:
+        return None
+
 def get_auth_token(code, redirect_uri):
     data = {'grant_type':'authorization_code',
             'code': code,

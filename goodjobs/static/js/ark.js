@@ -339,13 +339,17 @@ Ark.PathView = Backbone.View.extend({
             var node = this.model.get("nodes").at(i).get("coords");
             str.push([node.x, node.y]);
         }
-                return str;
+        return str;
     }
 });
 
 Ark.InfoView = Backbone.View.extend({
     initialize: function(options) {
+        this.parent = options.parent;
+
         this.render();
+
+        $("#info-container").append(this.el);
 
         this.on("fadeIn", this.fadeIn, this);
         this.on("fadeOut", this.fadeOut, this);
@@ -356,9 +360,11 @@ Ark.InfoView = Backbone.View.extend({
     },
 
     render: function() {
-        this.element = Ark.drawInfo(this.parent.model);
-        this.robj = this.element;
-        this.setElement(this.element.node);
+        var dict = this.parent.model.toJSON();
+        console.log(dict);
+        var html = _.template($("#info-template").html(), dict, {variable: "data"});
+
+        this.el = html;
     },
 
     show: function() {
@@ -381,6 +387,8 @@ Ark.NodeView = Backbone.View.extend({
         this.model.on("change", this.render, this);
         this.model.on("destroy", this.onDestroy, this);
         this.model.on("animate:in", this.animateIn, this);
+
+        new Ark.InfoView({parent: this});
     },
 
     events: {
@@ -440,7 +448,6 @@ Ark.NodeView = Backbone.View.extend({
 
     onHover: function() {
         this.robj.animate({transform: "s1.25"}, 500, "elastic");
-                //this.infoView.trigger("fadeIn");
     },
 
     offHover: function() {

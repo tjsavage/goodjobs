@@ -5,7 +5,7 @@ import requests
 
 from django.conf import settings
 
-from goodjobs.linkedin.models import UserProfile, Experience, Organization, Industry
+from goodjobs.linkedin.models import UserProfile, Experience, Organization, Industry, Tag
 
 import logging, sys
 
@@ -60,6 +60,8 @@ def parse_experience(user, individual_position_data):
     experience.organization = parse_organization(experience, individual_position_data["company"])
     experience.save()
 
+    update_organization(experience.organization, user.oauth_token)
+
 def parse_organization(organization, individual_company_data):
     organization_linkedin_id = individual_company_data["id"] if "id" in individual_company_data else None
     organization_name = individual_company_data["name"]
@@ -77,6 +79,32 @@ def parse_organization(organization, individual_company_data):
 
     organization.save()
     return organization
+
+@task()
+def update_organization(organization, token):
+    fields = ['id', 'name', 'description', 'logo-url', 'employee-count-range', 'specialties', 'industries']
+    org_json = linkedin_api.get_company(token, organization.linkedin_id, fields=fields)
+
+    if not org_json:
+        return
+        
+    if "description" in org_json:
+        organization.description = org_json["description"]
+    if "employeeCountRange" in org_json:
+        organization.employee_count_range = org_json["employeeCountRange"]["name"]
+    if "industries" in org_json:
+        for industry_json in org_json["industries"]["values"]:
+            industry_name = industry_json["name"]
+            tag, created = Tag.objects.get_or_create(name=industry_name)
+
+            organization.tags.add(tag)
+    if "specialties" in org_json:
+        for specialty in org_json["specialties"]["values"]:
+            tag, created = Tag.objects.get_or_create(name=specialty)
+
+            organization.tags.add(tag)
+    organization.save()
+
 
 def parse_industry(organization, industry_name):
     industry, created = Industry.objects.get_or_create(name=industry_name)

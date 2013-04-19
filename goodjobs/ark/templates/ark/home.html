@@ -2,9 +2,17 @@
 
 
 {% block scripts %}
-<script type="text/template" id="info_template">
-    <div>
-        <p><%= variable =></p>
+<script type="text/template" id="info-template">
+    <div class="info-popout rounded-corners" style="display: none;">
+        <div class="info-company-block">
+            <h1>BlackRock</h1>
+            <p>BlackRock is one of the world's leading providers of investment, advisory and risk management solutions. We are a truly global firm that combines the benefits of worldwide reach with local service and relationships. We manage assets for clients in North and South America, Europe, Asia, Australia, the Middle East and Africa. The firm employs more than 10,100 talented professionals and maintains offices in 27 countries around the world. Our client base includes corporate, public, union and industry pension plans; governments; insurance companies; third-party mutual funds; endowments; foundations; charities; corporations; official institutions; sovereign wealth funds; banks; financial professionals; and individuals worldwide.
+
+                As of December 31, 2012, BlackRock's assets under management total US$3.792 trillion across equity, fixed income, cash management, alternative investment, real estate and advisory strategies. Through BlackRock Solutions® — the natural evolution of our long-standing investment in developing sophisticated and highly integrated systems — we offer risk management, strategic advisory and enterprise investment system services to a broad base of clients with portfolios totaling approximately US$12 trillion.
+
+                For additional information, please visit the firm’s website at www2.blackrock.com/global/home/AboutUs/.
+            </p>
+        </div>
     </div>
 </script>
 
@@ -14,4 +22,9 @@
     <script type="text/javascript" src="/static/js/backbone-min.js"></script>
     <script type="text/javascript" src="/static/js/backbone.getters.setters.js"></script>
     <script defer="defer" type="text/javascript" src="/static/js/ark.js"></script>
+{% endblock %}
+
+{% block content %}
+<div id="canvas-container"></div>
+<div id="info-container"></div>
 {% endblock %}

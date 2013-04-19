@@ -100,7 +100,12 @@ class Organization(models.Model):
     linkedin_id = models.CharField(max_length=200, null=True, default=None)
     industry = models.ForeignKey("Industry", null=True)
     name = models.CharField(max_length=200)
-    size = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    website_url = models.CharField(max_length=255, null=True, blank=True)
+    logo_url = models.CharField(max_length=255, null=True, blank=True)
+    locations_description = models.TextField(null=True, blank=True)
+    employee_count_range = models.CharField(max_length=255, null=True, blank=True)
+
     company_type = models.CharField(max_length=100)
     tags = models.ManyToManyField("Tag")
 
