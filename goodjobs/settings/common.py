@@ -4,7 +4,6 @@ import os, sys
 import djcelery
 djcelery.setup_loader()
 
-BROKER_POOL_LIMIT = 1
 
 import logging
 logging.basicConfig( 
@@ -14,7 +13,6 @@ logging.basicConfig(
     datefmt='%H:%M:%S' 
 ) 
 
-BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 

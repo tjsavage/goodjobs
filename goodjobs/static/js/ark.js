@@ -12,6 +12,9 @@ var NODE_OPTIONS = {
     stroke: 'black',
 }
 
+var WIDTH;
+var HEIGHT;
+
 var Ark = {
     setPaper: function(paper) {
         this.paper = paper;
@@ -354,28 +357,38 @@ Ark.InfoView = Backbone.View.extend({
         this.on("fadeIn", this.fadeIn, this);
         this.on("fadeOut", this.fadeOut, this);
         this.on("hide", this.hide, this);
-        this.parent.model.on("change:coord", this.onMove, this);
+        this.parent.model.on("change:coords", this.onMove, this);
         this.parent.on("mouseover", this.show, this);
         this.parent.on("mouseout", this.hide, this);
     },
 
     render: function() {
         var dict = this.parent.model.toJSON();
-        console.log(dict);
+        dict["id"] = this.parent.cid;
         var html = _.template($("#info-template").html(), dict, {variable: "data"});
 
-        this.el = html;
+        $("#info-container").append(html);
+        this.el = $("#info-" + this.parent.cid);
+
+        var xOffset = 80;
+        if (this.parent.model.x() > WIDTH / 2.0) {
+            xOffset = -280;
+        }
+        this.el.css("left", this.parent.model.x() + xOffset).css("top", this.parent.model.y() - 280);
+
+        this.el.hide();
     },
 
-    show: function() {
+    fadeIn: function() {
+        this.el.fadeIn();
     },
 
-    hide: function() {
-        this.element.attr({'opacity': 0});
+    fadeOut: function() {
+        this.el.fadeOut();
     },
 
     onMove: function() {
-        this.element.attr({'x': this.parent.model.x(), 'y': this.parent.model.y()});
+        this.el.css("left", this.parent.model.x() + 80).css("top", this.parent.model.y() - 280);
     }
 });
 
@@ -388,7 +401,7 @@ Ark.NodeView = Backbone.View.extend({
         this.model.on("destroy", this.onDestroy, this);
         this.model.on("animate:in", this.animateIn, this);
 
-        new Ark.InfoView({parent: this});
+        this.infoView = new Ark.InfoView({parent: this});
     },
 
     events: {
@@ -448,11 +461,12 @@ Ark.NodeView = Backbone.View.extend({
 
     onHover: function() {
         this.robj.animate({transform: "s1.25"}, 500, "elastic");
+        this.infoView.trigger("fadeIn");
     },
 
     offHover: function() {
         this.robj.animate({transform: "s1"}, 500, "elastic");
-        //this.infoView.trigger("fadeOut");
+        this.infoView.trigger("fadeOut");
     },
 
     animateIn: function(options) {
@@ -562,8 +576,8 @@ Ark.PathControlsView = Backbone.View.extend({
 
 
 $(document).ready(function() {
-    var WIDTH = $("#canvas-container").width();
-    var HEIGHT = $("#canvas-container").height();
+    WIDTH = $("#canvas-container").width();
+    HEIGHT = $("#canvas-container").height();
     var paper = new Raphael('canvas-container', WIDTH, HEIGHT);
 
     var pathLoaded = function(tree) {

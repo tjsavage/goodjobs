@@ -79,6 +79,7 @@ class Experience(models.Model):
     def json_dict(self):
         d = {}
         d["linkedin_id"] = self.linkedin_id
+        d["id"] = self.pk
         if self.start_year:
             d["start_year"] = self.start_year
         if self.start_month:
@@ -118,8 +119,8 @@ class Organization(models.Model):
             d["linkedin_id"] = self.linkedin_id
         if self.name:
             d["name"] = self.name
-        if self.size:
-            d["size"] = self.employee_count_range
+        if self.employee_count_range:
+            d["employee_count_range"] = self.employee_count_range
         if self.company_type:
             d["company_type"] = self.company_type
         if self.industry:
