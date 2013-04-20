@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.utils import simplejson
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from scipy.stats import norm
 
 import random
 
@@ -45,29 +46,36 @@ Takes a root node and returns a list of path suggestions
 """
 @csrf_exempt
 @login_required
+
 def suggestions(request):
-    user = request.user
+    def get_prob(matchQuant):
+        return norm.cdf(matchQuant,15,.05)  #cdf
+
+    def sim_coeff(vector1, vector2):
+        x=1.0 * num_overlap(vector1, vector2)
+        y=1.0*(len(vector1)+len(vector2))
+        return get_prob(x/y)
+
+    def num_overlap(a, b):
+        count = 0
+        for t in a:
+            if t in b:
+                count +=1
+        return count
+
+    my_user = request.user
     my_tags = user.tags.all()
-    my_organzations = Organization.objects.filter(user=user)
-    last_organization_id = request.GET.get("organization_id")
-    my_last_organization = Organization.objects.get(pk=last_organization_id)
+    my_last_experience = my_user.last_experience
+    count = randint(0,UserProfile.all().count-1)
 
-
-
-
-
-    while True: 
-        other_user = UserProfile.objects.all().order_by("?")[0]
-        for tag in my_tags:
-            if tag in other_user.tags.all():
-                return HttpResponse(simplejson.dumps(user.path_json_dict()))
-
-
-
-
-
-
-
+    potential_matches = UserProfile.objects.filter(last_experience__organization__name=my_user.last_experience.organization.name)
+    if len(potential_matches) == 0 
+        return UserProfile.objects.all()[count]
+    for profile in potential_matches
+        r = sim_coeff(profile.tags.all(), my_tags)
+        if(r>.7)
+            return HttpResponse(simplejson.dumps(user.path_json_dict()))
+    return UserProfile.objects.all()[count]
 
 
 @login_required

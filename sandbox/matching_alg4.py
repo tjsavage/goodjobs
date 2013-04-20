@@ -7,7 +7,7 @@ from Queue import PriorityQueue
 
 
 def get_prob(matchQuant):
-  return 2*numpy.sqrt(matchQuant)+matchQuant*(2*(1-numpy.sqrt(2)))  #cdf
+  return numpy.random.normal(.15,.05)  #cdf
 
 
 def sim_coeff(vector1, vector2):
