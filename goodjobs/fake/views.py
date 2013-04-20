@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 
 from goodjobs.fake.forms import OrganizationForm, UserProfileForm, ExperienceForm, TagForm
-from goodjobs.linkedin.models import UserProfile, Organization, Experience
+from goodjobs.linkedin.models import UserProfile, Organization, Experience, Tag
 
 def index(request):
     users = UserProfile.objects.all()
@@ -86,6 +86,6 @@ def tag(request):
             return HttpResponse("Saved!")
 
     else:
-        form = Tag()
+        form = TagForm()
 
     return render_to_response("fake/form.html", {"form": form, "model": "tag"}, context_instance=RequestContext(request))
