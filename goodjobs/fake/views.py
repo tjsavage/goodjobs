@@ -5,25 +5,41 @@ from django.http import HttpResponse
 from django.template import RequestContext
 
 from goodjobs.fake.forms import OrganizationForm, UserProfileForm, ExperienceForm, TagForm
+from goodjobs.linkedin.models import UserProfile, Organization
 
 def index(request):
-    return render_to_response("fake/index.html")
+    users = UserProfile.objects.all()
+    organizations = Organization.objects.all()
+
+    return render_to_response("fake/index.html", {"users": users, "organizations": organizations})
 
 def organization(request):
+    org = None
     if request.method == 'POST':
-        form = OrganizationForm(request.POST)
+        if request.POST.get("org_id", None):
+            form = OrganizationForm(request.POST, instance=Organization.objects.get(pk=int(request.POST.get("org_id"))))
+        else:
+            form = OrganizationForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponse("Saved!")
 
     else:
-        form = OrganizationForm()
+        if request.GET.get("org_id", None):
+            org = Organization.objects.get(pk=int(request.GET.get("org_id")))
+            form = OrganizationForm(instance=org)
+        else:
+            form = OrganizationForm()
 
-    return render_to_response("fake/form.html", {"form": form, "model": "organization"}, context_instance=RequestContext(request))
+    return render_to_response("fake/form.html", {"form": form, "model": "organization", "organization": org}, context_instance=RequestContext(request))
 
 def userprofile(request):
+    user = None
     if request.method == 'POST':
-        form = UserProfileForm(request.POST)
+        if request.POST.get("id", None):
+            form = UserProfileForm(request.POST, instance=UserProfile.objects.get(pk=int(request.POST.get("id"))))
+        else:
+            form = UserProfileForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.password = " "
@@ -34,9 +50,13 @@ def userprofile(request):
             return HttpResponse("Saved!")
 
     else:
-        form = UserProfileForm()
+        if request.GET.get("id", None):
+            user = UserProfile.objects.get(pk=int(request.GET.get("id")))
+            form = UserProfileForm(instance=user)
+        else:
+            form = UserProfileForm()
 
-    return render_to_response("fake/form.html", {"form": form, "model": "userprofile"}, context_instance=RequestContext(request))
+    return render_to_response("fake/form.html", {"form": form, "model": "userprofile", "user":user}, context_instance=RequestContext(request))
 
 def experience(request):
     if request.method == 'POST':

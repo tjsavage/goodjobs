@@ -43,10 +43,8 @@ def update_user(user, json_data):
 def parse_experiences(user, positions_data):
     experience = None
     for individual_position_data in positions_data:
-        if individual_position_data == positions_data[0]:
-            user.last_experience = parse_experience(user, individual_position_data)
-        else
-            parse_experience(user, individual_position_data)
+        experience = parse_experience(user, individual_position_data)
+    user.last_experience = experience
     user.save()
 
 def parse_experience(user, individual_position_data):

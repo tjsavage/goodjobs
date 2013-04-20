@@ -16,6 +16,7 @@ class UserProfileForm(ModelForm):
 class ExperienceForm(ModelForm):
     class Meta:
         model = Experience
+        exclude = ('linkedin_id', )
 
 class TagForm(ModelForm):
     class Meta:

@@ -7,6 +7,8 @@
         <form action="/fake/{{ model }}/" method="post">
             {% csrf_token %}
             {{ form.as_p }}
+            <input type="hidden" name="id" value="{{ user.pk }}" />
+            <input type="hidden" name="org_id" value="{{ organization.pk }}" />
             <input type="submit" value="Submit" />
         </form>
     </body>

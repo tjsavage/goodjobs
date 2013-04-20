@@ -7,6 +7,17 @@
         <a href="/fake/userprofile/" class="btn">Create a fake user!</a>
         <a href="/fake/experience/" class="btn">Create a fake experience!</a>
         <a href="/fake/organization/" class="btn">Create a fake organization!</a>
-
+        <br />
+        <h2>Users:</h2>
+        {% for user in users %}
+            <a href="/fake/userprofile/?id={{ user.pk }}">{{ user.first_name }} {{ user.last_name }}</a>
+            <br />
+        {% endfor %}
+        <br />
+        <h2>Organization:</h2>
+        {% for org in organizations %}
+            <a href="/fake/organization/?org_id={{ org.pk }}">{{ org.name }}</a>
+            <br />
+        {% endfor %}
     </body>
 </html>
