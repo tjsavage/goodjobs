@@ -24,36 +24,63 @@ canvas {
 .splash-pane {
     height: auto;
     min-height: 200px;
-    padding: 50px;
+    padding: 80px 0px 80px 60px;
     background-color: #ff6140;
     left: -50%;
-    margin-top: 80px;
+    margin-top: 0px;
     z-index: 999;
     position: relative;
 }
 
+.video {
+    margin-top: 0px;
+    position: relative;
+    margin-left: 30px;
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+
+}
+
 .splash-row {
-    width: 90%;
+    width: 100%;
     min-width: 800px;
-    margin-left: auto;
+    margin-left: 0px;
     margin-right: auto;
     overflow: auto;
+    max-width: 800px;
 }
 
 .splash-block {
-    float: left;
+    float: right;
     width: 48%;
 }
 
+.splash-block #player {
+    padding-top: 10px;
+}
+
 .splash-pane h1 {
-    margin-top: 20px;
     font-family: 'Ubuntu', sans-serif;
     color: white;
-    font-size: 50px;
+    font-size: 55px;
+    text-align: left;
+    padding-left: 0px;
+}
+
+.splash-pane p {
+    text-align: left;
+    margin-top: 0px;
+    padding-top: 5px;
+    padding-right: 15px;
+    font-family: 'Oxygen', sans-serif;
+    color: white;
+    max-width: 450px;
 }
 
 .splash-title {
-    margin: 20px;
+    margin: 0px 20px 20px 0px;
     display: block;
 }
 
@@ -64,19 +91,13 @@ canvas {
     color: white;
     text-align: right;
     float: right;
-    margin-right: 45px;
-}
-
-.splash-pane p {
-    margin-top: 70px;
-    font-family: 'Oxygen', sans-serif;
-    color: white;
+    margin-right: 5px;
 }
 
 .splash-pane .button {
-
+    border-radius: 5px;
     background-color: white;
-    padding: 25px;
+    padding: 10px;
     font-family: 'Oxygen';
     font-size: 25px;
     text-decoration: none;
@@ -94,6 +115,13 @@ canvas {
     -khtml-border-radius: 10px; /* for old Konqueror browsers */
 }
 
+.button_image {
+    width: 50px;
+    position: relative;
+    top: -3px;
+    left: -4px;
+}
+
 #canvas-container {
     min-height: 800px;
     width: 100%;
@@ -102,4 +130,64 @@ canvas {
     text-align: left;
     position: absolute;
     bottom: 0px;
+}
+
+#ark-icon {
+    width:70px;
+    position: fixed;
+    left: 427px;
+    top: 343px
+}
+
+#copyright {
+    position: fixed;
+    bottom: -5px;
+    left: 10px;
+    font-size: 10px;
+}
+
+.pane2 {
+    margin-left: 18px;
+    color: white;
+}
+
+.blurb-header {
+    padding-left: 10px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    padding-top: 5px;
+}
+
+.blurb-text {
+    padding-left: 15px;
+    line-height: 1.5;
+    padding-top: 4px;
+    padding-right: 10px;
+
+}
+
+.blurbs {
+    max-width: 288px;
+    position: relative;
+    right: 50%;
+    text-align: left;
+    background-color: #ff6140;u4
+    padding: 10px;
+    margin-left: 45px;
+    opacity: .9;
+    border-radius: 5px;
+    height: 300px;
+    margin-top: 50px;
+}
+
+.center {
+    text-align: center;
+}
+
+.icons {
+    margin-top: 10px;
+    padding: 10px 10px 0px 15px;
+    width: 10%;
+    padding-top: 15px;
+    float: left;
 }

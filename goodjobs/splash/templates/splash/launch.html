@@ -3,18 +3,36 @@
 {% block content %}
 <div class="splash-pane">
     <div class="splash-row">
-        <div class="splash-block">
-            <iframe width="359" height="202" src="http://www.youtube.com/embed/IHFGV79oZH8" frameborder="0" allowfullscreen></iframe>
+        <div class="splash-block video">
+            <iframe width="359" height="202" src="http://www.youtube.com/embed/IHFGV79oZH8?HD=1;showinfo=0;color=white;start=9" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="splash-block">
             <div class="splash-title">
-        	   <h1>OdysseyArkk</h1>
-               <span class="subtitle">by arkk.co</span>
+        	   <h1>Arkk.co</h1>
+                <p>Arkk combines your LinkedIn data with a dynamic tool that lets you rapidly prototype your future by looking at other people's trajectories and past experiences.
+                </p>
             </div>
-
-            <p><a href="/linkedin/authenticate/" class="button rounded-corners">Connect with LinkedIn</a></p>
+            <p><a href="/linkedin/authenticate/" class="button rounded-corners"><img class="button_image" src="http://i.imgur.com/Zprw5fw.png"> Connect with LinkedIn</a></p>
 
         </div>
     </div>
+    <img id="ark-icon" src="http://i.imgur.com/14UkzEm.png">
+</div>
+<div class="pane2">    
+    <div class="span4 blurbs">
+        <div class="center"><img class="icons" style="width:15%" src='http://i.imgur.com/cEZ1uHy.png'></div>
+        <h3 class="blurb-header">Who are we?</h3>
+        <p class="blurb-text">Someone with a budding, well-defined, or even non-existant interest in planning your long-term trajectory. Maybe you don't know where you want to be in 10 years, maybe you do. Regardless, Arkk helps you explore the many options by looking at what others have done.</p>
+    </div>
+    <div class="span4 blurbs" style="opacity:0">
+        
+    </div>
+    <div class="span4 blurbs">
+        <div class="center"><img class="icons" src='http://i.imgur.com/XpaVbmy.png'></div>
+        <h3 class="blurb-header">Who are you?</h3>
+        <p class="blurb-text">Someone with a budding, well-defined, or even non-existant interest in planning your long-term trajectory. Maybe you don't know where you want to be in 10 years, maybe you do. Regardless, Arkk helps you explore the many options by looking at what others have done.</p>
+    </div>
+</div>
+<p id="copyright">Copyright &copy; 2013 Team Arkk | Icons by Alex Fuller</p>
 </div>
 {% endblock %}
