@@ -41,8 +41,11 @@ def update_user(user, json_data):
             parse_experiences(user, json_data["positions"]["values"])
 
 def parse_experiences(user, positions_data):
+    experience = None
     for individual_position_data in positions_data:
-        parse_experience(user, individual_position_data)    
+        experience = parse_experience(user, individual_position_data)
+    user.last_experience = experience
+    user.save()
 
 def parse_experience(user, individual_position_data):
     experience, created = Experience.objects.get_or_create(linkedin_id=individual_position_data["id"],
@@ -67,6 +70,8 @@ def parse_experience(user, individual_position_data):
     experience.save()
 
     update_organization.apply_async((experience.organization, user.oauth_token, ))
+
+    return experience
 
 def parse_organization(organization, individual_company_data):
     organization_linkedin_id = individual_company_data["id"] if "id" in individual_company_data else None

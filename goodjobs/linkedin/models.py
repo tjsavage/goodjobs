@@ -39,7 +39,7 @@ class UserProfile(AbstractBaseUser):
     headline = models.CharField(max_length=255, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
     tags = models.ManyToManyField("Tag")
-
+    last_experience = models.ForeignKey("Experience", null=True)
     objects = LinkedInUserManager()
 
     USERNAME_FIELD = 'linkedin_id'

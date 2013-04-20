@@ -41,6 +41,8 @@ class ParseTest(TestCase):
         self.assertEquals(Organization.objects.all().count(), 8)
         self.assertEquals(Organization.objects.filter(name="Pivotal Labs").count(), 1)
 
+        self.assertEquals(user.last_experience.organization.name, "Stanford Student Enterprises")
+        
 class JSONTest(TestCase):
     def setUp(self):
         user = UserProfile(linkedin_id="sKH-8eGqP9")
