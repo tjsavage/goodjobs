@@ -80,6 +80,7 @@ class Experience(models.Model):
         d = {}
         d["linkedin_id"] = self.linkedin_id
         d["id"] = self.pk
+        d["type"] = "experience"
         if self.start_year:
             d["start_year"] = self.start_year
         if self.start_month:

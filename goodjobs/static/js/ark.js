@@ -369,12 +369,12 @@ Ark.InfoView = Backbone.View.extend({
 
     show: function() {
         if (this.parent.model.get("type") == "experience") {        
-            $("#info-container").html(this.html).slideDown();
+            $("#info-container").html(this.html).fadeIn(100);
         }
     },
 
     hide: function() {
-        $("#info-container").html(this.html).slideUp();
+        $("#info-container").hide()
     },
 
     onMove: function() {
@@ -449,12 +449,12 @@ Ark.NodeView = Backbone.View.extend({
     },
 
     onHover: function() {
-        this.robj.animate({fill: "#00ff00"}, 200, "linear");
+        this.robj.animate({fill: "#00ff00"}, 100, "linear");
         this.infoView.trigger("show");
     },
 
     offHover: function() {
-        this.robj.animate({fill: "orange"}, 200, "linear");
+        this.robj.animate(this.attrs[this.model.get("type")], 100, "linear");
         this.infoView.trigger("hide");
     },
 
@@ -557,8 +557,6 @@ Ark.PathControlsView = Backbone.View.extend({
         this.coords = this.model.getNodeAt(-1).get("coords");
         this.trigger("change:coords");
     }
-
-
 
 
 });
