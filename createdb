@@ -1,0 +1,2 @@
+python manage.py syncdb --settings=goodjobs.settings.develop
+python manage.py migrate --all --settings=goodjobs.settings.develop

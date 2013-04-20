@@ -106,11 +106,13 @@ def update_organization(organization, token):
     if "industries" in org_json:
         for industry_json in org_json["industries"]["values"]:
             industry_name = industry_json["name"]
+            industry_name = industry_name.lower()
             tag, created = Tag.objects.get_or_create(name=industry_name)
 
             organization.tags.add(tag)
     if "specialties" in org_json:
         for specialty in org_json["specialties"]["values"]:
+            specialty = specialty.lower()
             tag, created = Tag.objects.get_or_create(name=specialty)
 
             organization.tags.add(tag)

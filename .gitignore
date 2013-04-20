@@ -2,3 +2,4 @@
 celerybeat-schedule.db
 venv
 *.pyc
+sqlite3.db

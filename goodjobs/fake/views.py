@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.template import RequestContext
 
-from goodjobs.fake.forms import OrganizationForm, UserProfileForm, ExperienceForm
+from goodjobs.fake.forms import OrganizationForm, UserProfileForm, ExperienceForm, TagForm
 
 def index(request):
     return render_to_response("fake/index.html")
@@ -50,3 +50,14 @@ def experience(request):
 
     return render_to_response("fake/form.html", {"form": form, "model": "experience"}, context_instance=RequestContext(request))
 
+def tag(request):
+    if request.method == 'POST':
+        form = TagForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse("Saved!")
+
+    else:
+        form = Tag()
+
+    return render_to_response("fake/form.html", {"form": form, "model": "tag"}, context_instance=RequestContext(request))
