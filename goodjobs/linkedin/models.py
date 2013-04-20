@@ -38,8 +38,8 @@ class UserProfile(AbstractBaseUser):
     picture_url = models.CharField(max_length=255, blank=True, null=True)
     headline = models.CharField(max_length=255, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
-    tags = models.ManyToManyField("Tag")
-    last_experience = models.ForeignKey("Experience", null=True)
+    tags = models.ManyToManyField("Tag", null=True, blank=True)
+    last_experience = models.ForeignKey("Experience", null=True, blank=True)
     objects = LinkedInUserManager()
 
     USERNAME_FIELD = 'linkedin_id'
@@ -63,14 +63,14 @@ class UserProfile(AbstractBaseUser):
         return d
 
 class Experience(models.Model):
-    linkedin_id = models.CharField(max_length=50, null=True, default=None)
-    organization = models.ForeignKey("Organization", null=True)
-    start_year = models.IntegerField(null=True)
-    start_month = models.IntegerField(null=True)
-    end_year = models.IntegerField(null=True)
-    end_month = models.IntegerField(null=True)
+    linkedin_id = models.CharField(max_length=50, null=True, default=None, blank=True)
+    organization = models.ForeignKey("Organization", null=True, blank=True)
+    start_year = models.IntegerField(null=True, blank=True)
+    start_month = models.IntegerField(null=True, blank=True)
+    end_year = models.IntegerField(null=True, blank=True)
+    end_month = models.IntegerField(null=True, blank=True)
     summary = models.TextField(blank=True, null=True)
-    title = models.CharField(max_length=255, null=True)
+    title = models.CharField(max_length=255, null=True, blank=True)
     user = models.ForeignKey("UserProfile")
 
     def __unicode__(self):
@@ -99,7 +99,7 @@ class Experience(models.Model):
 
 class Organization(models.Model):
     linkedin_id = models.CharField(max_length=200, null=True, default=None)
-    industry = models.ForeignKey("Industry", null=True)
+    industry = models.ForeignKey("Industry", null=True, blank=True)
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     website_url = models.CharField(max_length=255, null=True, blank=True)
@@ -108,7 +108,7 @@ class Organization(models.Model):
     employee_count_range = models.CharField(max_length=255, null=True, blank=True)
 
     company_type = models.CharField(max_length=100, null=True, blank=True)
-    tags = models.ManyToManyField("Tag")
+    tags = models.ManyToManyField("Tag", null=True, blank=True)
 
     def __unicode__(self):
         return "%s" % self.name
