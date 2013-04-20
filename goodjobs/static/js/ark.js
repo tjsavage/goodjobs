@@ -287,6 +287,13 @@ Ark.Path = Backbone.Model.extend({
     },
 
     move: function(d) {
+        if (d.x === undefined) {
+            d.x = 0;
+        }
+        if (d.y === undefined) {
+            d.y = 0;
+        }
+
         var newCoords = {x: this.get("coords").x + d.x,
                          y: this.get("coords").y + d.y};
 
@@ -304,6 +311,10 @@ Ark.Path = Backbone.Model.extend({
         }
         this.set("coords", newCoords);
         this.trigger("change:coords");
+    },
+
+    remove: function() {
+        console.log("REMOVE THE PATH");
     },
 
     description: function() {
@@ -340,6 +351,7 @@ Ark.PathView = Backbone.View.extend({
         this.model.on("add:node", this.addNode, this);
         this.model.on("sync", this.renderAll, this);
         this.model.on("shake:node", this.shakeNode, this)
+        this.on("slideOut", this.slideOut, this);
         this.nodeViews = {};
         if (this.model.get("owner") != "me") {
             this.personalOffset = 300;
@@ -366,6 +378,15 @@ Ark.PathView = Backbone.View.extend({
         this.hill.animate({"path": this.getHillPathString()}, 400, "linear");
         this.hill.toBack();
         
+    },
+
+    slideOut: function(callback) {
+        this.model.get("nodes").forEach(function(node) {
+            node.trigger("slideOut");
+        });
+
+        this.model.move({x: 500})
+        callback();
     },
 
     shakeNode: function(index) {
@@ -733,8 +754,58 @@ Ark.PathControlsView = Backbone.View.extend({
         this.trigger("change:coords");
     }
 
-
 });
+
+Ark.ButtonView = Backbone.View.extend({
+    initialize: function(options) {
+        this.setElement($("#next-button"));
+
+        this.clickCallback = options.clickCallback;
+
+        this.on("show", this.show, this);
+        this.on("hide", this.hide, this);
+    },
+
+    events: {
+        "click": "onClick",
+        "mouseover": "onMouseOver",
+        "mouseOut": "onMouseOut"
+    },
+
+    onClick: function() {
+        console.log("clicked");
+        if (this.clickCallback) {
+            this.clickCallback();
+        }
+    },
+
+    show: function() {
+        this.el.show();
+    },
+
+    hide: function() {
+        this.el.hide();
+    },
+
+    onMove: function() {
+    }
+});
+
+var otherPathView;
+var otherPath;
+function nextPath() {
+    console.log("nextPath");
+    function loadNewPath() {
+        setTimeout(function() {
+            otherPath = new Ark.Path({"url": "/api/path/suggestions/",
+                                    "coords": {x: WIDTH * 3.0 / 4, y: HEIGHT - NODE_R}});
+
+            otherPathView = new Ark.PathView({"model": otherPath});
+        }, 500);
+        
+    }
+    otherPathView.trigger("slideOut", loadNewPath);
+}
 
 
 $(document).ready(function() {
@@ -757,12 +828,14 @@ $(document).ready(function() {
     myPath = new Ark.Path({"url": "/api/path/",
                             "coords": {x: WIDTH / 2.0, y: HEIGHT - NODE_R}});
     myPath.set("owner", "me");
-    var pathView = new Ark.PathView({"model": myPath});
+    var myPathView = new Ark.PathView({"model": myPath});
+
+    var nextButton = new Ark.ButtonView({clickCallback: nextPath});
 
     setTimeout(function() {
-        pathView.model.moveTo({x: 300});
-        var newPath = new Ark.Path({"url": "/api/path/2/",
+        myPathView.model.moveTo({x: 300});
+        otherPath = new Ark.Path({"url": "/api/path/2/",
                                     "coords": {x: WIDTH * 3.0 / 4, y: HEIGHT - NODE_R}});
-        var newPathView = new Ark.PathView({"model": newPath});
+        otherPathView = new Ark.PathView({"model": otherPath});
     }, 1000);
 });
