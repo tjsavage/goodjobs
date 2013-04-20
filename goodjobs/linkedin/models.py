@@ -107,7 +107,7 @@ class Organization(models.Model):
     locations_description = models.TextField(null=True, blank=True)
     employee_count_range = models.CharField(max_length=255, null=True, blank=True)
 
-    company_type = models.CharField(max_length=100)
+    company_type = models.CharField(max_length=100, null=True, blank=True)
     tags = models.ManyToManyField("Tag")
 
     def __unicode__(self):

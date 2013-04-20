@@ -154,6 +154,7 @@ INSTALLED_APPS = (
     'goodjobs.splash',
     'goodjobs.linkedin',
     'goodjobs.ark',
+    'goodjobs.fake',
 )
 
 # A sample logging configuration. The only tangible logging

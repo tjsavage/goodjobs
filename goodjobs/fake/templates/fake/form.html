@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+    </head>
+    <body>
+        <h1>{{ model }}</h1>
+        <form action="/fake/{{ model }}/" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit" />
+        </form>
+    </body>
+</html>

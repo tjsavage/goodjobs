@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^splash/', include('goodjobs.splash.urls')),
     url(r'^ark/', include('goodjobs.ark.urls')),
     url(r'api/', include('goodjobs.api.urls')),
+    url(r'fake/', include('goodjobs.fake.urls')),
 
 
     # Uncomment the admin/doc line below to enable admin documentation:
