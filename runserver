@@ -1,2 +1,4 @@
 #!/bin/bash
+/usr/local/sbin/rabbitmq-server &
+python manage.py celeryd -E -B --loglevel=INFO --settings=goodjobs.settings.develop &
 python manage.py run_gunicorn -b "0.0.0.0:5000" --settings=goodjobs.settings.develop
