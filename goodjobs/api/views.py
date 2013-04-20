@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.utils import simplejson
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from scipy.stats import norm
+
 
 import random
 
@@ -49,7 +49,10 @@ Takes a root node and returns a list of path suggestions
 
 def suggestions(request):
     def get_prob(matchQuant):
-        return norm.cdf(matchQuant,15,.05)  #cdf
+        if matchQuant<.15:
+            return 10*matchQuant*matchQuant
+        else:
+            return (-40/3)*matchQuant+(40/6)
 
     def sim_coeff(vector1, vector2):
         x=1.0 * num_overlap(vector1, vector2)
@@ -69,11 +72,11 @@ def suggestions(request):
     count = randint(0,UserProfile.all().count-1)
 
     potential_matches = UserProfile.objects.filter(last_experience__organization__name=my_user.last_experience.organization.name)
-    if len(potential_matches) == 0 
+    if len(potential_matches) == 0: 
         return UserProfile.objects.all()[count]
-    for profile in potential_matches
+    for profile in potential_matches:
         r = sim_coeff(profile.tags.all(), my_tags)
-        if(r>.7)
+        if(r>.7):
             return HttpResponse(simplejson.dumps(user.path_json_dict()))
     return UserProfile.objects.all()[count]
 
