@@ -14,6 +14,8 @@ var NODE_OPTIONS = {
 
 var WIDTH;
 var HEIGHT;
+var PHOTO_X_OFFSET = -200
+var PHOTO_Y_OFFSET = -150;
 
 var myPath;
 
@@ -173,7 +175,8 @@ Ark.Path = Backbone.Model.extend({
             $.getJSON(this.url(), function(data, status, jqXHR) {
                 var nodes = new Ark.NodeList(data.experiences);
                 T.set("nodes", nodes);
-                
+                T.set(data);
+
                 T.trigger("sync");
             });
         }
@@ -345,6 +348,7 @@ Ark.PathView = Backbone.View.extend({
 
     onChangeCoords: function() {
         this.renderPath();
+        this.photo.animate({x: this.model.x() + PHOTO_X_OFFSET, y: HEIGHT + PHOTO_Y_OFFSET}, 400, "linear");
     },
 
     shakeNode: function(index) {
@@ -374,6 +378,10 @@ Ark.PathView = Backbone.View.extend({
             this.nodeViews[node] = nodeView;
             node.trigger("animate:in", {"from": {x: this.model.x(), y: this.model.y()}});
         }
+
+        console.log(this.model.get("picture_url"));
+        this.photo = Ark.drawImage(this.model.get("picture_url"), this.model.x() + PHOTO_X_OFFSET, HEIGHT + PHOTO_Y_OFFSET, 100, 100);
+
 
         this.renderPath();
         this.renderControls();
