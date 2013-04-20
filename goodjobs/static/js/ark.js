@@ -16,6 +16,8 @@ var WIDTH;
 var HEIGHT;
 var PHOTO_X_OFFSET = -200
 var PHOTO_Y_OFFSET = -150;
+var HILL_X_OFFSET = -300;
+var HILL_Y_OFFSET = -50;
 
 var myPath;
 
@@ -51,8 +53,11 @@ var Ark = {
         return set;
     },
 
-    drawPath: function(pathString) {
-        return this.paper.path( pathString ).attr( ARC_OPTIONS );
+    drawPath: function(pathString, options) {
+        if (options === undefined) {
+            options = ARC_OPTIONS;
+        }
+        return this.paper.path( pathString ).attr( options );
     },
 
     animateDrawPath: function(pathstr, duration, delay, callback )
@@ -336,6 +341,11 @@ Ark.PathView = Backbone.View.extend({
         this.model.on("sync", this.renderAll, this);
         this.model.on("shake:node", this.shakeNode, this)
         this.nodeViews = {};
+        if (this.model.get("owner") != "me") {
+            this.personalOffset = 300;
+        } else {
+            this.personalOffset = 0;
+        }
     },
 
     events: {
@@ -348,7 +358,14 @@ Ark.PathView = Backbone.View.extend({
 
     onChangeCoords: function() {
         this.renderPath();
-        this.photo.animate({x: this.model.x() + PHOTO_X_OFFSET, y: HEIGHT + PHOTO_Y_OFFSET}, 400, "linear");
+
+        if (this.photo) {
+            this.photo.animate({x: this.model.x() + PHOTO_X_OFFSET + this.personalOffset, y: HEIGHT + PHOTO_Y_OFFSET}, 400, "linear");
+        }
+
+        this.hill.animate({"path": this.getHillPathString()}, 400, "linear");
+        this.hill.toBack();
+        
     },
 
     shakeNode: function(index) {
@@ -380,10 +397,15 @@ Ark.PathView = Backbone.View.extend({
         }
 
         console.log(this.model.get("picture_url"));
-        this.photo = Ark.drawImage(this.model.get("picture_url"), this.model.x() + PHOTO_X_OFFSET, HEIGHT + PHOTO_Y_OFFSET, 100, 100);
+        if (this.model.get("picture_url")) {
+            this.photo = Ark.drawImage(this.model.get("picture_url"), this.model.x() + this.personalOffset + PHOTO_X_OFFSET, HEIGHT + PHOTO_Y_OFFSET, 100, 100);
+        }
 
+        this.hill = Ark.drawPath(this.getHillPathString(), {"fill": "green"});
 
         this.renderPath();
+        this.hill.toBack();
+
         this.renderControls();
     },
 
@@ -393,7 +415,7 @@ Ark.PathView = Backbone.View.extend({
 
         var path = Ark.animateDrawPath(this.getPathString(), 700, 200);
         path.toBack();
-
+        this.path = path;
         this.element = path.node;
         this.robj = path;
         this.setElement(this.element);
@@ -415,6 +437,20 @@ Ark.PathView = Backbone.View.extend({
             var node = this.model.get("nodes").at(i).get("coords");
             str.push([node.x, node.y]);
         }
+        return str;
+    },
+
+    getHillPathString: function() {
+        var root = {x: this.model.x() + this.personalOffset + HILL_X_OFFSET, y: HEIGHT};
+
+        var str = []
+        str.push("M", root.x, root.y);
+        str.push(["T"]);
+        str.push([root.x + 30, root.y - 70]);
+        str.push([root.x + 120, root.y - 90]);
+        str.push([root.x + 190, root.y - 90]);
+        str.push([root.x + 250, root.y]);
+        str.push("Z");
         return str;
     }
 });
@@ -447,7 +483,7 @@ Ark.InfoView = Backbone.View.extend({
     },
 
     hide: function() {
-        $("#info-container").hide()
+        $("#info-container").hide();
     },
 
     onMove: function() {
@@ -720,6 +756,7 @@ $(document).ready(function() {
     
     myPath = new Ark.Path({"url": "/api/path/",
                             "coords": {x: WIDTH / 2.0, y: HEIGHT - NODE_R}});
+    myPath.set("owner", "me");
     var pathView = new Ark.PathView({"model": myPath});
 
     setTimeout(function() {
