@@ -446,6 +446,7 @@ Ark.NodeView = Backbone.View.extend({
     },
 
     onClick: function() {
+
     },
 
     onHover: function() {
@@ -579,18 +580,14 @@ $(document).ready(function() {
 
     Ark.setPaper(paper);
     
-    var path = new Ark.Path({"url": "/api/path/",
+    var myPath = new Ark.Path({"url": "/api/path/",
                             "coords": {x: WIDTH / 2.0, y: HEIGHT - NODE_R}});
-    var pathView = new Ark.PathView({"model": path});
-
-    setTimeout(function() {
-        path.addNode({"type": "blank"});
-    }, 2000);
+    var pathView = new Ark.PathView({"model": myPath});
 
     setTimeout(function() {
         pathView.model.moveTo({x: 300});
         var newPath = new Ark.Path({"url": "/api/path/",
                                     "coords": {x: WIDTH * 3.0 / 4, y: HEIGHT - NODE_R}});
         var newPathView = new Ark.PathView({"model": newPath});
-    }, 3000);
+    }, 1000);
 });

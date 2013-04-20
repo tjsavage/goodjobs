@@ -5,13 +5,14 @@ from django.http import HttpResponse
 from django.template import RequestContext
 
 from goodjobs.fake.forms import OrganizationForm, UserProfileForm, ExperienceForm, TagForm
-from goodjobs.linkedin.models import UserProfile, Organization
+from goodjobs.linkedin.models import UserProfile, Organization, Experience
 
 def index(request):
     users = UserProfile.objects.all()
     organizations = Organization.objects.all()
+    experiences = Experience.objects.all()
 
-    return render_to_response("fake/index.html", {"users": users, "organizations": organizations})
+    return render_to_response("fake/index.html", {"users": users, "organizations": organizations, "experiences": experiences})
 
 def organization(request):
     org = None
@@ -59,16 +60,23 @@ def userprofile(request):
     return render_to_response("fake/form.html", {"form": form, "model": "userprofile", "user":user}, context_instance=RequestContext(request))
 
 def experience(request):
+    experience = None
     if request.method == 'POST':
-        form = ExperienceForm(request.POST)
+        if request.POST.get("experience_id", None):
+            form = ExperienceForm(request.POST, instance=Experience.objects.get(pk=int(request.POST.get("experience_id"))))
+        else:
+            form = ExperienceForm(request.POST)
         if form.is_valid():
-            form.save()
-            return HttpResponse("Saved!")
-
+            experience = form.save()
+            return HttpResponse("%s" % experience)
     else:
-        form = ExperienceForm()
+        if request.GET.get("experience_id", None):
+            experience = Experience.objects.get(pk=int(request.GET.get("id")))
+            form = ExperienceForm(instance=experience)
+        else:
+            form = ExperienceForm()
 
-    return render_to_response("fake/form.html", {"form": form, "model": "experience"}, context_instance=RequestContext(request))
+    return render_to_response("fake/form.html", {"form": form, "model": "experience", "experience": experience}, context_instance=RequestContext(request))
 
 def tag(request):
     if request.method == 'POST':
