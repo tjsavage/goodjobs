@@ -7,14 +7,11 @@
 
 {% block scripts %}
 <script type="text/template" id="info-template">
-    <div class="info-popout rounded-corners" id="info-<%= data.id %>">
+    <div class="info-frame rounded-corners" id="info-<%= data.id %>">
         <div class="info-company-block">
             <h1><%= data.organization.name %></h1>
             <p><%= data.organization.description %>
             </p>
-        </div>
-        <div class="info-pointer-down">
-            <div class="info-pointer-down-inner"></div>
         </div>
     </div>
 </script>

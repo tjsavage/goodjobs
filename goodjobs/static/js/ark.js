@@ -1,7 +1,7 @@
 var PI = Math.PI;
-var DIST = 60;
+var DIST = 40;
 var NODE_R = 30;
-var NODE_X_OFFSET = 30;
+var NODE_X_OFFSET = 50;
 var ARC_OPTIONS = {
         stroke: '#0076a0',
         'stroke-width': 10,
@@ -354,48 +354,31 @@ Ark.InfoView = Backbone.View.extend({
 
         $("#info-container").append(this.el);
 
-        this.on("fadeIn", this.fadeIn, this);
-        this.on("fadeOut", this.fadeOut, this);
-        this.on("hide", this.hide, this);
         this.parent.model.on("change:coords", this.onMove, this);
-        this.parent.on("mouseover", this.show, this);
-        this.parent.on("mouseout", this.hide, this);
+        this.on("show", this.show, this);
+        this.on("hide", this.hide, this);
     },
 
     render: function() {
-        var dict = this.parent.model.toJSON();
-        dict["id"] = this.parent.cid;
-        var html = _.template($("#info-template").html(), dict, {variable: "data"});
-        console.log(dict);
-        $("#info-container").append(html);
-        this.el = $("#info-" + this.parent.cid);
-
-        
-        this.el.hide();
+        if (this.parent.model.get("type") == "experience") {
+            var dict = this.parent.model.toJSON();
+            dict["id"] = this.parent.cid;
+            this.html = _.template($("#info-template").html(), dict, {variable: "data"});        
+        }
     },
 
-    fadeIn: function() {
-        this.el.fadeIn();
+    show: function() {
+        if (this.parent.model.get("type") == "experience") {        
+            $("#info-container").html(this.html).slideDown();
+        }
     },
 
-    fadeOut: function() {
-        this.el.fadeOut();
+    hide: function() {
+        $("#info-container").html(this.html).slideUp();
     },
 
     onMove: function() {
-        var xOffset = 80;
-        if (this.parent.model.x() > WIDTH / 2.0) {
-            xOffset = -390;
-        }
-
-        var yOffset = -280;
-        if (this.parent.model.y() + yOffset + this.el.height() > HEIGHT) {
-            yOffset = HEIGHT - this.parent.model.y() - this.el.height();
-        }
-        console.log(this.el.height());
-        console.log(this.parent.model.y());
-        console.log(HEIGHT);
-        this.el.css("left", this.parent.model.x() + xOffset).css("top", this.parent.model.y() + yOffset);    }
+    }
 });
 
 Ark.NodeView = Backbone.View.extend({
@@ -466,13 +449,13 @@ Ark.NodeView = Backbone.View.extend({
     },
 
     onHover: function() {
-        this.robj.animate({transform: "s1.25"}, 500, "elastic");
-        this.infoView.trigger("fadeIn");
+        this.robj.animate({fill: "#00ff00"}, 200, "linear");
+        this.infoView.trigger("show");
     },
 
     offHover: function() {
-        this.robj.animate({transform: "s1"}, 500, "elastic");
-        this.infoView.trigger("fadeOut");
+        this.robj.animate({fill: "orange"}, 200, "linear");
+        this.infoView.trigger("hide");
     },
 
     animateIn: function(options) {

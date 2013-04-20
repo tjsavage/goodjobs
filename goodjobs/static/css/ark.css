@@ -25,17 +25,17 @@ canvas {
     bottom: 0px;
 }
 
-.info-popout {
-    width: 300px;
+.info-frame {
+    width: 100%;
     max-height: 500px;
     height: auto;
-    background-color: #fff;
     position: absolute;
     z-index: 1000;
     padding: 3px;
     border-style: solid;
-    border-width: 4px;
-    padding: 5px;
+    border-bottom-width: 4px;
+    background-color: #ddd;
+    float:left;
 }
 
 .rounded-corners {
