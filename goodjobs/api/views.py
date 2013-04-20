@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 import random
 
-from goodjobs.linkedin.models import Tag, UserProfile
+from goodjobs.linkedin.models import Tag, UserProfile, Organization, Experience
 
 @csrf_exempt
 def tags(request):
@@ -44,48 +44,31 @@ def child(request):
 Takes a root node and returns a list of path suggestions
 """
 @csrf_exempt
+@login_required
 def suggestions(request):
-    paths = [
-        {
-            "real": True,
-            "firstName": "Jim",
-            "lastName": "Beam",
-            "nodes" : [
-                {
-                    "start_date": "2009-04-14 22:59:04.605744+00:00",
-                    "industry": "Computer Science",
-                    "organization": "Stanford University",
-                    "position": "Student"
-                },
-                {
-                    "start_date": "2012-04-14 22:59:04.605744+00:00",
-                    "industry": "Finance",
-                    "organization": "BlackRock",
-                    "position": "Analyst"
-                }
-            ]
-            
-        }
-        ,
-        {
-            "real": False,
-            "nodes": [
-                {
-                    "start_date": "2009-04-14 22:59:04.605744+00:00",
-                    "industry": "Computer Science",
-                    "organization": "Stanford University",
-                    "position": "Student"
-                },
-                {
-                    "start_date": "2012-04-14 22:59:04.605744+00:00",
-                    "industry": "Finance",
-                    "organization": "BlackRock",
-                    "position": "Analyst"
-                }
-            ]
-        }
-    ]
-    return HttpResponse(simplejson.dumps(paths))
+    user = request.user
+    my_tags = user.tags.all()
+    my_organzations = Organization.objects.filter(user=user)
+    last_organization_id = request.GET.get("organization_id")
+    my_last_organization = Organization.objects.get(pk=last_organization_id)
+
+
+
+
+
+    while True: 
+        other_user = UserProfile.objects.all().order_by("?")[0]
+        for tag in my_tags:
+            if tag in other_user.tags.all():
+                return HttpResponse(simplejson.dumps(user.path_json_dict()))
+
+
+
+
+
+
+
+
 
 @login_required
 @csrf_exempt
