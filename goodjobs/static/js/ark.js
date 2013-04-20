@@ -498,7 +498,7 @@ Ark.InfoView = Backbone.View.extend({
     },
 
     show: function() {
-        if (this.parent.model.get("type") == "experience") {        
+        if (this.parent.model.get("type") == "experience" || this.parent.model.get("type") == "potential") {        
             $("#info-container").html(this.html).fadeIn(100);
         }
     },
@@ -761,7 +761,7 @@ Ark.ButtonView = Backbone.View.extend({
         this.setElement($("#next-button"));
 
         this.clickCallback = options.clickCallback;
-
+        this.hide();
         this.on("show", this.show, this);
         this.on("hide", this.hide, this);
     },
@@ -780,11 +780,19 @@ Ark.ButtonView = Backbone.View.extend({
     },
 
     show: function() {
-        this.el.show();
+        this.$el.show();
     },
 
     hide: function() {
-        this.el.hide();
+        this.$el.hide();
+    },
+
+    fadeIn: function() {
+        this.$el.fadeIn();
+    },
+
+    fadeOut: function() {
+        this.$el.fadeOut();
     },
 
     onMove: function() {
@@ -793,6 +801,7 @@ Ark.ButtonView = Backbone.View.extend({
 
 var otherPathView;
 var otherPath;
+var nextButton;
 function nextPath() {
     console.log("nextPath");
     function loadNewPath() {
@@ -801,10 +810,12 @@ function nextPath() {
                                     "coords": {x: WIDTH * 3.0 / 4, y: HEIGHT - NODE_R}});
 
             otherPathView = new Ark.PathView({"model": otherPath});
+            nextButton.fadeIn();
         }, 500);
         
     }
     otherPathView.trigger("slideOut", loadNewPath);
+    nextButton.fadeOut();
 }
 
 
@@ -830,12 +841,13 @@ $(document).ready(function() {
     myPath.set("owner", "me");
     var myPathView = new Ark.PathView({"model": myPath});
 
-    var nextButton = new Ark.ButtonView({clickCallback: nextPath});
+    nextButton = new Ark.ButtonView({clickCallback: nextPath});
 
     setTimeout(function() {
         myPathView.model.moveTo({x: 300});
         otherPath = new Ark.Path({"url": "/api/path/2/",
                                     "coords": {x: WIDTH * 3.0 / 4, y: HEIGHT - NODE_R}});
         otherPathView = new Ark.PathView({"model": otherPath});
+        nextButton.fadeIn();
     }, 1000);
 });
