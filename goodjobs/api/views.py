@@ -31,6 +31,13 @@ def my_path(request):
 
     return HttpResponse(simplejson.dumps(user.path_json_dict()))
 
+@login_required
+@csrf_exempt
+def get_path(request, user_id):
+    user = UserProfile.objects.get(pk=int(user_id))
+
+    return HttpResponse(simplejson.dumps(user.path_json_dict()))
+
 def child(request):
     child = {
             "start_date": "2015-04-14 22:59:04.605744+00:00",

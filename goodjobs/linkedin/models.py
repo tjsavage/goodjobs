@@ -74,7 +74,7 @@ class Experience(models.Model):
     user = models.ForeignKey("UserProfile")
 
     def __unicode__(self):
-        return "%s from %s" % (self.organization, self.start_year)
+        return "%s - %s from %s" % (self.user, self.organization, self.start_year)
 
     def json_dict(self):
         d = {}
