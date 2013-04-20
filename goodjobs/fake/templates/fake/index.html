@@ -20,5 +20,10 @@
             <a href="/fake/organization/?org_id={{ org.pk }}">{{ org.name }}</a>
             <br />
         {% endfor %}
+        <h2>Experiences:</h2>
+        {% for exp in experiences %}
+            <a href="/fake/experience/?experience_id={{ exp.pk }}">{{ exp.user.first_name }} {{ exp.title }}</a>
+            <br />
+        {% endfor %}
     </body>
 </html>

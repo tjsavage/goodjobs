@@ -369,12 +369,12 @@ Ark.InfoView = Backbone.View.extend({
 
     show: function() {
         if (this.parent.model.get("type") == "experience") {        
-            $("#info-container").html(this.html).slideDown();
+            $("#info-container").html(this.html).fadeIn(100);
         }
     },
 
     hide: function() {
-        $("#info-container").html(this.html).slideUp();
+        $("#info-container").hide()
     },
 
     onMove: function() {
@@ -446,15 +446,16 @@ Ark.NodeView = Backbone.View.extend({
     },
 
     onClick: function() {
+
     },
 
     onHover: function() {
-        this.robj.animate({fill: "#00ff00"}, 200, "linear");
+        this.robj.animate({fill: "#00ff00"}, 100, "linear");
         this.infoView.trigger("show");
     },
 
     offHover: function() {
-        this.robj.animate({fill: "orange"}, 200, "linear");
+        this.robj.animate(this.attrs[this.model.get("type")], 100, "linear");
         this.infoView.trigger("hide");
     },
 
@@ -559,8 +560,6 @@ Ark.PathControlsView = Backbone.View.extend({
     }
 
 
-
-
 });
 
 
@@ -581,18 +580,14 @@ $(document).ready(function() {
 
     Ark.setPaper(paper);
     
-    var path = new Ark.Path({"url": "/api/path/",
+    var myPath = new Ark.Path({"url": "/api/path/",
                             "coords": {x: WIDTH / 2.0, y: HEIGHT - NODE_R}});
-    var pathView = new Ark.PathView({"model": path});
-
-    setTimeout(function() {
-        path.addNode({"type": "blank"});
-    }, 2000);
+    var pathView = new Ark.PathView({"model": myPath});
 
     setTimeout(function() {
         pathView.model.moveTo({x: 300});
         var newPath = new Ark.Path({"url": "/api/path/",
                                     "coords": {x: WIDTH * 3.0 / 4, y: HEIGHT - NODE_R}});
         var newPathView = new Ark.PathView({"model": newPath});
-    }, 3000);
+    }, 1000);
 });
