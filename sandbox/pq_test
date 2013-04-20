@@ -1,0 +1,13 @@
+import Queue
+from Queue import PriorityQueue
+
+
+if __name__ == '__main__':
+  
+  pq = PriorityQueue(3)
+  pq.put((2, "larson"))
+  pq.put((3, "esthena"))
+  pq.put((1, "barlow"))
+
+  while not pq.empty():
+    print(pq.get())
