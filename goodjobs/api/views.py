@@ -67,18 +67,21 @@ def suggestions(request):
         return count
 
     my_user = request.user
-    my_tags = user.tags.all()
+    my_tags = my_user.tags.all()
     my_last_experience = my_user.last_experience
-    count = randint(0,UserProfile.all().count-1)
-
-    potential_matches = UserProfile.objects.filter(last_experience__organization__name=my_user.last_experience.organization.name)
+    total = UserProfile.objects.all().count()
+    count = random.randint(0, total-1)
+    if my_last_experience is None:
+        return HttpResponse(simplejson.dumps(UserProfile.objects.all()[count].path_json_dict()))
+    else:
+        potential_matches = UserProfile.objects.filter(last_experience__organization__name=my_last_experience.organization.name)
     if len(potential_matches) == 0: 
-        return UserProfile.objects.all()[count]
+        return HttpResponse(simplejson.dumps(UserProfile.objects.all()[count].path_json_dict()))
     for profile in potential_matches:
         r = sim_coeff(profile.tags.all(), my_tags)
         if(r>.7):
             return HttpResponse(simplejson.dumps(user.path_json_dict()))
-    return UserProfile.objects.all()[count]
+    return HttpResponse(simplejson.dumps(UserProfile.objects.all()[count].path_json_dict()))
 
 
 @login_required
